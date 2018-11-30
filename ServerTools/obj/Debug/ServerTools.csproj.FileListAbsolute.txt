@@ -1,0 +1,8 @@
+G:\niuzai\Server\ServerTools\bin\Debug\ServerTools.dll
+G:\niuzai\Server\ServerTools\bin\Debug\ServerTools.pdb
+G:\niuzai\Server\ServerTools\obj\Debug\ServerTools.dll
+G:\niuzai\Server\ServerTools\obj\Debug\ServerTools.pdb
+E:\niuzai\Server\ServerTools\bin\Debug\ServerTools.dll
+E:\niuzai\Server\ServerTools\bin\Debug\ServerTools.pdb
+E:\niuzai\Server\ServerTools\obj\Debug\ServerTools.dll
+E:\niuzai\Server\ServerTools\obj\Debug\ServerTools.pdb

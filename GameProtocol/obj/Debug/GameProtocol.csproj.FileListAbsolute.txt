@@ -1,0 +1,10 @@
+E:\niuzai\clientMe\client\Assets\Plugins\GameProtocol.dll
+E:\niuzai\clientMe\client\Assets\Plugins\GameProtocol.pdb
+E:\niuzai\Server\GameProtocol\obj\Debug\GameProtocol.dll
+E:\niuzai\Server\GameProtocol\obj\Debug\GameProtocol.pdb
+E:\niuzai\Server\GameProtocol\obj\Debug\GameProtocol.csprojResolveAssemblyReference.cache
+E:\顺风顺水\buck\niuzai\clientMe\client\Assets\Plugins\GameProtocol.dll
+E:\顺风顺水\buck\niuzai\clientMe\client\Assets\Plugins\GameProtocol.pdb
+E:\顺风顺水\buck\niuzai\Server\GameProtocol\obj\Debug\GameProtocol.csprojResolveAssemblyReference.cache
+E:\顺风顺水\buck\niuzai\Server\GameProtocol\obj\Debug\GameProtocol.dll
+E:\顺风顺水\buck\niuzai\Server\GameProtocol\obj\Debug\GameProtocol.pdb
