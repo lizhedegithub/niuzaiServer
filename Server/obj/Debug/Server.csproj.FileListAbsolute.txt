@@ -27,3 +27,13 @@ E:\顺风顺水\buck\niuzai\Server\Server\bin\Debug\GameProtocol.dll
 E:\顺风顺水\buck\niuzai\Server\Server\bin\Debug\ServerTools.dll
 E:\顺风顺水\buck\niuzai\Server\Server\bin\Debug\GameProtocol.pdb
 E:\顺风顺水\buck\niuzai\Server\Server\bin\Debug\ServerTools.pdb
+E:\Git\niuzaiServer\Server\bin\Debug\Server.exe.config
+E:\Git\niuzaiServer\Server\bin\Debug\Server.exe
+E:\Git\niuzaiServer\Server\bin\Debug\Server.pdb
+E:\Git\niuzaiServer\Server\bin\Debug\ServerTools.dll
+E:\Git\niuzaiServer\Server\bin\Debug\GameProtocol.pdb
+E:\Git\niuzaiServer\Server\bin\Debug\ServerTools.pdb
+E:\Git\niuzaiServer\Server\obj\Debug\Server.csprojResolveAssemblyReference.cache
+E:\Git\niuzaiServer\Server\obj\Debug\Server.exe
+E:\Git\niuzaiServer\Server\obj\Debug\Server.pdb
+E:\Git\niuzaiServer\Server\bin\Debug\GameProtocol.dll

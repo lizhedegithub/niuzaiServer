@@ -41,6 +41,19 @@ namespace Server.logic.fight
         /// </summary>
         private List<int> readrole = new List<int>();
 
+        /// <summary>
+        /// 游戏是否开始(当前局是否开始)
+        /// </summary>
+        protected bool IsGameStart = false;
+
+        /// <summary>
+        /// 房间是否开始，进行游戏
+        /// </summary>
+        protected bool IsRoomStart = false;
+
+        /// <summary>
+        /// 玩家最大人数
+        /// </summary>
         protected int MaxPlayer = 0;
 
         public void ClientClose(UserToken token, string error)
@@ -50,9 +63,28 @@ namespace Server.logic.fight
 
         public void MessageReceive(UserToken token, SocketModel message)
         {
-
+            if (!CacheFactory.user.IsOnLine(token)) return;
+            switch (message .command)
+            {
+                //玩家请求准备
+                case FightProtocol.ENTERFIGHT_CREQ:
+                    {
+                        token.write(TypeProtocol.FIGHT, FightProtocol.ENTERFIGHT_SRES, Enter(token));
+                    }
+                    break;
+                //离开房间
+                case FightProtocol.LEAVEFIGHT_CREQ:
+                    {
+                        Leave(token);
+                    }
+                    break;
+            }
         }
 
+        /// <summary>
+        /// 初始化房间
+        /// </summary>
+        /// <param name="model"></param>
         public void Init(MatchInfoModel model)
         {
             GameType = model.GameType;//初始化房间类型
@@ -129,11 +161,16 @@ namespace Server.logic.fight
                 DebugUtil.Instance.LogToTime(uid + "玩家不在此房间，无需准备");
                 return -2;
             }
+            //将玩家添加到准备列表
             readrole.Add(uid);
+            //吧把准备列表广播给所有玩家
+            Broadcast(FightProtocol.ENTERFIGHT_BRQ, readrole);
             DebugUtil.Instance.LogToTime(uid + "玩家准备成功");
             if(readrole .Count ==TemeId .Count)
             {
                 DebugUtil.Instance.LogToTime(RoomId + "房间全部准备，游戏即将开始");
+                IsGameStart = true;
+                IsRoomStart = true;
                 StartGame();
             }
             return 0;
@@ -144,7 +181,7 @@ namespace Server.logic.fight
 
         }
 
-        void Leave()
+        void Leave(UserToken token)
         {
 
         }

@@ -14,15 +14,21 @@ namespace Server.logic
     /// </summary>
     public class HandleCenter : NetFrame.AbsHandlerCenter
     {
+        //登录
         IHandler LoginHandler;
+        //用户
         IHandler UserHandler;
+        //匹配
         IHandler MatchHandler;
+        //战斗
+        IHandler FightHandler;
 
         public HandleCenter()
         {
             LoginHandler = new logic.login.LoginHandler();
             UserHandler = new logic.user.UserHandler();
             MatchHandler = new logic.match.MatchHandler();
+            FightHandler = new logic.fight.FightHnadler();
         }
 
         /// <summary>
@@ -34,6 +40,7 @@ namespace Server.logic
         {
             Console.WriteLine("有客户端断开连接" + token.conn.RemoteEndPoint);
             //按照先后顺序，依次退出
+            FightHandler.ClientClose(token, error);
             MatchHandler.ClientClose(token, error);
             UserHandler.ClientClose(token, error);
             LoginHandler.ClientClose(token, error);
@@ -73,6 +80,10 @@ namespace Server.logic
                 //处理用户匹配模块的业务
                 case TypeProtocol.MATCH:
                     MatchHandler.MessageReceive(token, model);
+                    break;
+                //处理用户战斗模块的业务逻辑
+                case TypeProtocol.FIGHT:
+                    FightHandler.MessageReceive(token, model);
                     break;
             }
         }

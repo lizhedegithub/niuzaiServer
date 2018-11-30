@@ -67,12 +67,30 @@ namespace Server.cache
 
         public void MessageReceive(UserToken token, SocketModel message)
         {
-
+            //是否在线
+            if (!CacheFactory.user.IsOnLine(token)) return;
+            //获取用户id
+            int uid = CacheFactory.user.GetIdToToken(token);
+            //判断是否包含在玩家和房间号的映射中
+            if (!UserToRoom.ContainsKey(uid)) return;
+            //是否存在该房间
+            if (!RoomDic.ContainsKey(UserToRoom[uid])) return;
+            //转发消息到房间中
+            RoomDic[UserToRoom[uid]].MessageReceive(token, message);
         }
 
         public void ClientClose(UserToken token)
         {
-
+            //是否在线
+            if (!CacheFactory.user.IsOnLine(token)) return;
+            //获取用户id
+            int uid = CacheFactory.user.GetIdToToken(token);
+            //判断是否包含在玩家和房间号的映射中
+            if (!UserToRoom.ContainsKey(uid)) return;
+            //是否存在该房间
+            if (!RoomDic.ContainsKey(UserToRoom[uid])) return;
+            //转发消息到房间中
+            RoomDic[UserToRoom[uid]].ClientClose(token,"");
         }
     }
 }
