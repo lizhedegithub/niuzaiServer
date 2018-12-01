@@ -94,15 +94,15 @@ namespace ServerTools
                             //将本任务添加至移除列表
                             removeList.Add(TaskDic [IdKey [i]].ID);
                             //执行任务
-                            //try
-                            //{
-                            //    TaskDic [IdKey [i]].Run();
-                            //}
-                            ////抛出异常
-                            //catch (Exception e)
-                            //{
-                            //    DebugUtil.Instance.LogToTime(e, LogType.ERROR);
-                            //}
+                            try
+                            {
+                                TaskDic[IdKey[i]].Run();
+                            }
+                            //抛出异常
+                            catch (Exception e)
+                            {
+                                DebugUtil.Instance.LogToTime(e, LogType.ERROR);
+                            }
                         }
 
                     }                    
@@ -115,7 +115,7 @@ namespace ServerTools
         /// </summary>
         /// <param name="task">待执行的任务</param>
         /// <param name="time">任务执行时间——精度毫秒</param>
-        public void AddShedule(TimeTask task,long time)
+        public int AddShedule(TimeTask task,long time)
         {
             lock (TaskDic)
             {
@@ -128,6 +128,7 @@ namespace ServerTools
                 TimeTaskModel model = new TimeTaskModel(Index, task, time);
                 //将任务添加至任务字典
                 TaskDic.Add(Index, model);
+                return Index;
             }
         }
 
