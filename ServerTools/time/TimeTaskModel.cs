@@ -38,7 +38,7 @@ namespace ServerTools
         /// </summary>
         public void Run()
         {
-
+            Event();
         }
     }
 }

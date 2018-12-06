@@ -40,6 +40,7 @@ namespace ServerTools
         List<int> removeList = new List<int>();
 
         int Index = 0;
+
         SheduleUtil()
         {
             //开始计时器线程
@@ -63,6 +64,7 @@ namespace ServerTools
                 //    i = (int)(endtime - time) / 10000;
                 //}
                 //Console.WriteLine(i + ",");
+                //每20毫秒执行一次任务
                 Thread.Sleep(20);
                 CallBack();
             }
@@ -83,6 +85,7 @@ namespace ServerTools
                         TaskDic.Remove(removeList[i]);
                     //清除待移除列表
                     removeList.Clear();
+                    //获取现行时间
                     long endTime = DateTime.Now.Ticks;
                     List<int> IdKey = new List<int>(TaskDic.Keys.ToList());
                     for (int i = 0; i < IdKey.Count; i++)
@@ -125,7 +128,7 @@ namespace ServerTools
                 long nowtime = DateTime.Now.Ticks;
                 nowtime += time * 10000;
                 //创建一个新的任务
-                TimeTaskModel model = new TimeTaskModel(Index, task, time);
+                TimeTaskModel model = new TimeTaskModel(Index, task, nowtime);
                 //将任务添加至任务字典
                 TaskDic.Add(Index, model);
                 return Index;

@@ -14,7 +14,7 @@ using Server.cache;
 
 namespace Server.logic.fight
 {
-    class FightRoom : IHandler
+    public class FightRoom : IHandler
     {
         /// <summary>
         /// 房间号
@@ -61,6 +61,11 @@ namespace Server.logic.fight
             
         }
 
+        /// <summary>
+        /// 房间请求
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="message"></param>
         public void MessageReceive(UserToken token, SocketModel message)
         {
             if (!CacheFactory.user.IsOnLine(token)) return;
@@ -191,12 +196,27 @@ namespace Server.logic.fight
 
         }
 
-        void StartGame()
+        /// <summary>
+        /// 游戏开始
+        /// </summary>
+        protected virtual void StartGame()
         {
             DebugUtil.Instance.LogToTime(RoomId + "房间游戏开始");
         }
 
-        void GameOver()
+        /// <summary>
+        /// 游戏消息到达
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="message"></param>
+        protected virtual void GameMessageReceive(UserToken token,SocketModel message) { }
+
+        /// <summary>
+        /// 游戏结束
+        /// </summary>
+        /// <param name="isExist">是否正常结算</param>
+        /// <param name="exption"></param>
+        protected virtual void GameOver(bool isExist=false ,string exption="")
         {
 
         }

@@ -33,9 +33,17 @@ namespace Server.cache
                 DebugUtil.Instance.LogToTime(model.RoomId + "房间已经存在，不可重新创建");
                 return;
             }
-            FightRoom fight = new logic.fight.FightRoom();
+            FightRoom fight;
+            //如果当前游戏是赢三张，则使用FightRoom的子类TPFightRoom
+            if (model.GameType == GameProtocol.SConst.GameType.WINTHREEPOKER)
+                fight = new TPFightRoom();
+            else
+                fight = new FightRoom();
+            //初始化房间
             fight.Init(model);
+            //将房间号和房间绑定
             RoomDic.Add(model.RoomId, fight);
+            //将玩家和房间号绑定
             string str = "";
             for (int i=0;i<model .Team.Count; i++)
             {

@@ -75,11 +75,13 @@ namespace Server.cache
         /// <param name="roomtype"></param>
         public void AddMatch(int userid,SConst .GameType roomtype,ref ResponseStartMatchInfo info)
         {
-            Console.WriteLine(11111111111);
+            SheduleUtil.Instance.AddShedule(delegate () {
+                Console.WriteLine(5555555555555);
+            }, 10);
+
             #region 如果当前有匹配对列
             if (MatchInfo .Count > 0)
             {
-                Console.WriteLine(66666666666);
                 //创建一条匹配对列房间号的列表
                 List<int> Roomid = new List<int>(MatchInfo.Keys);
                 for (int i=0;i<Roomid.Count; i++)
@@ -109,7 +111,6 @@ namespace Server.cache
             #endregion
             #region 创建一个新的匹配对列
             //创建一个新的匹配对列
-            Console.WriteLine(22222222222);
             MatchInfoModel model = new MatchInfoModel();
             //设定当前具有玩家数量来开启游戏
             model.MaxPlayer = 2;
@@ -138,39 +139,30 @@ namespace Server.cache
         /// <param name="roomid"></param>
         private void IsFinish(int roomid)
         {
-            Console.WriteLine(333333333);
             //将队伍成员信息广播给所有队伍成员
             for (int i=0;i<MatchInfo [roomid ].Team.Count; i++)
             {
                 UserToken token = CacheFactory.user.GetToken(MatchInfo[roomid].Team[i]);
                 token.write(TypeProtocol.MATCH, MatchProtocol.MATCHINFO_BRQ, MatchInfo[roomid]);
             }
-            SheduleUtil.Instance.AddShedule(delegate () {
-                Console.WriteLine(2233445566);
-            },10);
             //匹配成功
             if(MatchInfo [roomid ].Team .Count ==MatchInfo [roomid].MaxPlayer)
             {
-                Console.WriteLine(777777777777);
                 DebugUtil.Instance.LogToTime(roomid +"对列当前匹配成功");
                 //等待一秒钟后，创建游戏房间
-                //SheduleUtil.Instance.AddShedule(delegate () {
-                    Console.WriteLine(4444444444);
+                SheduleUtil.Instance.AddShedule(delegate () {
                     for (int i = 0; i < MatchInfo[roomid].Team.Count; i++)
                     {
                         UserToken token = cache.CacheFactory.user.GetToken(MatchInfo[roomid].Team[i]);
                         token.write(TypeProtocol.MATCH, MatchProtocol.MATCHFINISH_BRQ, MatchInfo[roomid]);
-                        Console.WriteLine(5555555555);
                     }
                     SetStartGame(roomid);
                     SheduleUtil.Instance.AddShedule(delegate ()
                     {
                         Console.WriteLine(1010100101);
                         CacheFactory.fight.Create(MatchInfo[roomid]);
-                        Console.WriteLine(999999999999);
                     }, 1000);
-                //}, 1000);
-                Console.WriteLine(88888888888);
+                }, 1000);
             }
         }
 
