@@ -56,6 +56,16 @@ namespace Server.logic.fight
         /// </summary>
         protected int MaxPlayer = 0;
 
+        /// <summary>
+        /// 当前循环的玩家列表
+        /// </summary>
+        protected List<int> LoopOrder = new List<int>();
+
+        /// <summary>
+        /// 方位
+        /// </summary>
+        private List<int> Direction = new List<int>();
+
         public void ClientClose(UserToken token, string error)
         {
             
@@ -98,6 +108,11 @@ namespace Server.logic.fight
             TemeId.AddRange(model.Team);
             RoomId = model.RoomId;//初始化房间id
             MaxPlayer = model.MaxPlayer;//初始化人数
+            //添加方位数量
+            for (int i = 0; i < MaxPlayer; i++)
+            {
+                Direction.Add(i);
+            }
             //初始化玩家信息
             for (int i=0;i<model .Team.Count; i++)
             {
@@ -119,6 +134,9 @@ namespace Server.logic.fight
                     m.nickname = "nickname";
                     m.id = model .Team [i];
                 }
+                //赋值玩家当前方位
+                m.direction = Direction[0];
+                Direction.RemoveAt(0);
                 UserFight.Add(m.id, m);
             }
             //广播玩家信息
@@ -144,6 +162,21 @@ namespace Server.logic.fight
                 {
                     token.write(TypeProtocol .FIGHT,Commond, obj);
                 }
+            }
+        }
+ 
+        /// <summary>
+        /// 向指定玩家发送消息
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <param name="commond"></param>
+        /// <param name="obj"></param>
+        protected void SendMessage(int uid,int commond,object obj)
+        {
+            UserToken token = cache.CacheFactory.user.GetToken(uid);
+            if (token != null)
+            {
+                token.write(TypeProtocol.FIGHT, commond, obj);
             }
         }
 
@@ -176,6 +209,8 @@ namespace Server.logic.fight
                 DebugUtil.Instance.LogToTime(RoomId + "房间全部准备，游戏即将开始");
                 IsGameStart = true;
                 IsRoomStart = true;
+                //广播游戏开始
+                Broadcast(FightProtocol.GAMESTART_BRQ, SConst.GameType.WINTHREEPOKER);
                 StartGame();
             }
             return 0;
@@ -194,6 +229,41 @@ namespace Server.logic.fight
         void Close()
         {
 
+        }
+        
+        /// <summary>
+        /// 基于方位进行初始排序
+        /// </summary>
+        protected void SortLoopSorderInDirection()
+        {
+            LoopOrder.Clear();
+            //根据玩家方位进行初始排序
+            for (int i = 0; i < MaxPlayer; i++)
+            {
+                foreach (FightUserModel user in UserFight.Values)
+                {
+                    if (user.direction == i)
+                    {
+                        LoopOrder.Add(user.id);
+                    }
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// 基于用户id排序
+        /// </summary>
+        /// <param name="uid"></param>
+        protected void SortLoopInUser(int uid)
+        {
+            if (LoopOrder.Count == 0 || LoopOrder.Contains(uid)) return;
+            //添加排序规则
+            while (LoopOrder[0] != uid)
+            {
+                LoopOrder.Add(LoopOrder[0]);
+                LoopOrder.RemoveAt(0);
+            }
         }
 
         /// <summary>
@@ -215,8 +285,8 @@ namespace Server.logic.fight
         /// 游戏结束
         /// </summary>
         /// <param name="isExist">是否正常结算</param>
-        /// <param name="exption"></param>
-        protected virtual void GameOver(bool isExist=false ,string exption="")
+        /// <param name="exption">结束消息</param>
+        protected virtual void GameOver(bool isSettlement=false ,string exption="")
         {
 
         }

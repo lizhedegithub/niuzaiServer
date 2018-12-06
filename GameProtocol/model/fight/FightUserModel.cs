@@ -14,5 +14,10 @@ namespace GameProtocol.model.fight
         public string nickname="";
         public int coin = 0;
         public string head="";
+        public int direction = -1;//玩家的方位信息
+        /// <summary>
+        /// 玩家自己的手牌
+        /// </summary>
+        public List<PokerModel> poker = new List<PokerModel>();
     }
 }

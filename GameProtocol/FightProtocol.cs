@@ -9,14 +9,18 @@ namespace GameProtocol
         #region 公共协议40
         /// <summary>
         /// 广播用户信息
+        /// FightUserModel
         /// </summary>
         public const int PLAYERINFO_BRQ = 4001;
         /// <summary>
         /// 用户请求确认进入游戏
+        /// null
         /// </summary>
         public const int ENTERFIGHT_CREQ = 4002;
         /// <summary>
         /// 返回请求确认进入游戏
+        /// int
+        /// 
         /// </summary>
         public const int ENTERFIGHT_SRES = 4003;
         /// <summary>
@@ -37,6 +41,7 @@ namespace GameProtocol
         public const int GAMEDISSOLVE_BRQ = 4007;
         /// <summary>
         /// 广播游戏已经开始
+        /// Sconst.GameType
         /// </summary>
         public const int GAMESTART_BRQ = 4008;
         /// <summary>
@@ -47,13 +52,19 @@ namespace GameProtocol
 
         #region 金花41
         /// <summary>
+        /// 玩家自己摸到的牌
+        /// list<PokerModel> 玩家摸到的牌
+        /// </summary>
+        public const int TPDRAWCARD_BRQ = 4100;
+        /// <summary>
         /// 金花下底注广播
         /// </summary>
         public const int TPBETBASECOIN_BRQ = 4101;
         /// <summary>
-        /// 摸牌
+        /// 广播玩家摸牌
+        /// int 摸牌的玩家
         /// </summary>
-        public const int TPDRAWCARD_BRQ = 4102;
+        public const int TPDRAWCARDUSER_BRQ = 4102;
         /// <summary>
         /// 刷新当前按钮状态：弃牌，看牌，比牌，下注
         /// </summary>
