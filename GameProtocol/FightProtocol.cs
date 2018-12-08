@@ -20,11 +20,13 @@ namespace GameProtocol
         /// <summary>
         /// 返回请求确认进入游戏
         /// int
-        /// 
+        /// -1 准备失败，已经准备了
+        /// -2 准备失败，不在此房间
         /// </summary>
         public const int ENTERFIGHT_SRES = 4003;
         /// <summary>
         /// 广播确认信息
+        /// list<int> 准备的玩家
         /// </summary>
         public const int ENTERFIGHT_BRQ = 4004;
         /// <summary>

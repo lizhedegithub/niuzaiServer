@@ -201,7 +201,7 @@ namespace Server.logic.fight
             }
             //将玩家添加到准备列表
             readrole.Add(uid);
-            //吧把准备列表广播给所有玩家
+            //把准备列表广播给所有玩家
             Broadcast(FightProtocol.ENTERFIGHT_BRQ, readrole);
             DebugUtil.Instance.LogToTime(uid + "玩家准备成功");
             if(readrole .Count ==TemeId .Count)

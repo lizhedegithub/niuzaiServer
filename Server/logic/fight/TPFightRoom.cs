@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 using NetFrame;
 using NetFrame.auto;
 using GameProtocol;
-using GameProtocol.model.fight;
 using Server.logic.tool.poker;
+using GameProtocol.model.fight;
 
 namespace Server.logic.fight
 {
@@ -20,7 +20,7 @@ namespace Server.logic.fight
         /// <summary>
         /// 当前扑克列表
         /// </summary>
-        List<PokerModel> PokerList = new List<PokerModel>();
+        List<PokerModel> PokerList = new List<PokerModel>(); 
 
         /// <summary>
         /// 赢三张工具类
@@ -82,12 +82,13 @@ namespace Server.logic.fight
             //根据金币规则进行排序
             SortLoopInUser(MaxCoinId);
             //开始发牌
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 3; i++)//一人三张牌
             {
-                for (int j = 0; j < LoopOrder .Count; j++)
+                for (int j = 0; j < LoopOrder .Count; j++)//玩家个数
                 {
                     int userid = LoopOrder[j];
                     UserFight[userid].poker.Add(PokerList[0]);
+                    PokerList.RemoveAt(0);
                 }
             }
             //打印玩家手牌
@@ -100,7 +101,7 @@ namespace Server.logic.fight
                 }
                 DebugUtil.Instance.LogToTime("玩家手牌：" + card);
                 //通知玩家自己摸到的牌
-                SendMessage(LoopOrder[j], FightProtocol.TPDRAWCARD_BRQ, UserFight[LoopOrder[j]].poker);
+                //SendMessage(LoopOrder[j], FightProtocol.TPDRAWCARD_BRQ, UserFight[LoopOrder[j]].poker);
                 //通知所有玩家该玩家摸了牌
                 Broadcast(FightProtocol.TPDRAWCARDUSER_BRQ , LoopOrder[j]);
             }

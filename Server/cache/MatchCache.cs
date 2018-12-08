@@ -75,10 +75,6 @@ namespace Server.cache
         /// <param name="roomtype"></param>
         public void AddMatch(int userid,SConst .GameType roomtype,ref ResponseStartMatchInfo info)
         {
-            SheduleUtil.Instance.AddShedule(delegate () {
-                Console.WriteLine(5555555555555);
-            }, 10);
-
             #region 如果当前有匹配对列
             if (MatchInfo .Count > 0)
             {
