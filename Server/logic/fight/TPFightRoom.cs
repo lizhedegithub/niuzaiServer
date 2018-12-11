@@ -17,6 +17,8 @@ namespace Server.logic.fight
     /// </summary>
     public class TPFightRoom:FightRoom 
     {
+        int BetCoin = 1;
+
         /// <summary>
         /// 当前扑克列表
         /// </summary>
@@ -105,6 +107,12 @@ namespace Server.logic.fight
                 //通知所有玩家该玩家摸了牌
                 Broadcast(FightProtocol.TPDRAWCARDUSER_BRQ , LoopOrder[j]);
             }
+            //广播下注
+            foreach (FightUserModel model in UserFight.Values )
+            {
+                model.coin -= BetCoin;
+            }
+            Broadcast(FightProtocol.TPBETBASECOIN_BRQ, LoopOrder.Count*BetCoin);
         }
 
         /// <summary>

@@ -257,7 +257,8 @@ namespace Server.logic.fight
         /// <param name="uid"></param>
         protected void SortLoopInUser(int uid)
         {
-            if (LoopOrder.Count == 0 || LoopOrder.Contains(uid)) return;
+            //如果玩家数量等于0或不包含此玩家则直接返回
+            if (LoopOrder.Count == 0 || !LoopOrder.Contains(uid)) return;
             //添加排序规则
             while (LoopOrder[0] != uid)
             {
