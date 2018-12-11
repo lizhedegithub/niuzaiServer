@@ -113,6 +113,11 @@ namespace Server.logic.fight
                 model.coin -= BetCoin;
             }
             Broadcast(FightProtocol.TPBETBASECOIN_BRQ, LoopOrder.Count*BetCoin);
+            //广播玩家剩余筹码
+            for (int i = 0; i < LoopOrder.Count; i++)
+            {
+                Broadcast(FightProtocol.PLAYERINFO_BRQ, UserFight[LoopOrder[i]]);
+            }
         }
 
         /// <summary>
