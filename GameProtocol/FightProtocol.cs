@@ -60,6 +60,7 @@ namespace GameProtocol
         public const int TPDRAWCARD_BRQ = 4100;
         /// <summary>
         /// 金花下底注广播
+        /// int 底注数量
         /// </summary>
         public const int TPBETBASECOIN_BRQ = 4101;
         /// <summary>
@@ -85,14 +86,21 @@ namespace GameProtocol
         public const int TPCHECKCARD_BRQ = 4106;
         /// <summary>
         /// 请求下注
+        /// int 下注的金额  -1为跟注
         /// </summary>
         public const int TPBETCOIN_CREQ = 4107;
         /// <summary>
         /// 返回下注结果
+        /// -1 请求错误，没有此玩家
+        /// -2 请求错误，当前不是此玩家
+        /// -3 请求错误，游戏尚未开始
+        /// -4 低于当前可下最小金额
+        /// -5 大于当前可下最大金额
         /// </summary>
         public const int TPBETCOIN_SRES = 4108;
         /// <summary>
         /// 广播下注
+        /// TPBetModel
         /// </summary>
         public const int TPBETCOIN_BRQ = 4109;
         /// <summary>

@@ -30,12 +30,141 @@ namespace Server.logic.fight
         TPokerUtil TPokerUtil = new TPokerUtil();
 
         /// <summary>
+        /// 现在的分数
+        /// </summary>
+        int NowScore = 1;
+
+        /// <summary>
+        /// 最大的可下注金额
+        /// </summary>
+        int MaxScore = 40;
+
+        /// <summary>
+        /// 看牌的玩家列表
+        /// </summary>
+        List<int> CheckList = new List<int>();
+
+        /// <summary>
+        /// 下注金额的集合
+        /// </summary>
+        Dictionary<int, List<int >> BetCoinList = new Dictionary<int, List<int >>();
+
+        /// <summary>
+        /// 请求下注
+        /// </summary>
+        /// <param name="uid">请求下注的玩家</param>
+        /// <param name="coin">请求下注的金额</param>
+        private void ReqBet(int uid,int coin)
+        {
+            //初始请求的下注金额
+            int initCoin = coin;
+            if(!UserFight .ContainsKey (uid ) || !LoopOrder .Contains (uid))
+            {
+                DebugUtil.Instance.LogToTime("请求错误，没有此玩家");
+                SendMessage(uid, FightProtocol.TPBETCOIN_SRES, -1);
+                return;
+            }
+            if(LoopOrder [0]!=uid)
+            {
+                DebugUtil.Instance.LogToTime(uid + "请求错误，当前不是此玩家");
+                SendMessage(uid, FightProtocol.TPBETCOIN_SRES, -2);
+                return;
+            }
+            if(!IsGameStart)
+            {
+                DebugUtil.Instance.LogToTime("请求错误，游戏尚未开始");
+                SendMessage(uid, FightProtocol.TPBETCOIN_SRES, -3);
+                return;
+            }
+            //是否看过牌
+            if(CheckList .Contains (uid))
+            {
+                //跟注
+                if (coin == -1)
+                {
+                    coin = NowScore * 2;
+                    if (coin == 4)
+                        coin = 5;
+                }
+                //是否小于最小可下注金额
+                if (coin <NowScore * 2)
+                {
+                    DebugUtil.Instance.LogToTime(uid+"请求下注失败，当前可下注金额最小为："+(NowScore *2));
+                    SendMessage(uid, FightProtocol.TPBETCOIN_SRES, -4);
+                    return;
+                }
+                //是否大于最大下注金额
+                if (coin >  MaxScore)
+                {
+                    DebugUtil.Instance.LogToTime(uid + "请求下注失败，当前可下注金额最大为：" + MaxScore);
+                    SendMessage(uid, FightProtocol.TPBETCOIN_SRES, -5);
+                    return;
+                }
+                if (coin == 5)
+                {
+                    NowScore = 2;
+                }
+            }
+            else
+            {
+                if (coin == -1)
+                    coin = NowScore;
+                //是否小于最小可下注金额
+                if (coin < NowScore )
+                {
+                    DebugUtil.Instance.LogToTime(uid + "请求下注失败，当前可下注金额最小为：" + NowScore);
+                    SendMessage(uid, FightProtocol.TPBETCOIN_SRES, -4);
+                    return;
+                }
+                //是否大于最大下注金额
+                if (coin > MaxScore/2)
+                {
+                    DebugUtil.Instance.LogToTime(uid + "请求下注失败，当前可下注金额最大为：" + (MaxScore/2));
+                    SendMessage(uid, FightProtocol.TPBETCOIN_SRES, -5);
+                    return;
+                }
+                NowScore = coin;
+            }
+            //
+            Bet(uid, coin, initCoin);
+        }
+
+        /// <summary>
+        /// 处理下注事件
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <param name="coin"></param>
+        /// <param name="initCoin"></param>
+        private void Bet(int uid,int coin,int initCoin)
+        {
+            //将当前下注玩家和下注金额添加到集合中，等待结算
+            if (!BetCoinList.ContainsKey(uid))
+                BetCoinList.Add(uid, new List<int>());
+            BetCoinList[uid].Add(coin);
+            //声明待广播的数据,将下注数据广播
+            TPBetModel tpm = new TPBetModel();
+            tpm.id = uid;
+            tpm.coin = coin;
+            tpm.isAdd = initCoin == -1 ? false : true;
+            Broadcast(FightProtocol.TPBETCOIN_BRQ, tpm);
+            //更新玩家筹码后广播给所有玩家
+            UserFight[uid].coin -= coin;
+            Broadcast(FightProtocol.PLAYERINFO_BRQ, UserFight[uid]);
+            //玩家执行完下注，将玩家从当前下注列表中删除
+            //将当前玩家移动到最后,让下一家发话
+            LoopOrder.Add(LoopOrder[0]);
+            LoopOrder.RemoveAt(0);
+            DebugUtil.Instance.LogToTime(uid + "下注" + coin + "房间号" + RoomId + "是否看牌:" + CheckList.Contains(uid));
+        }
+
+        /// <summary>
         /// 进行游戏请求的逻辑处理
         /// </summary>
         /// <param name="token"></param>
         /// <param name="message"></param>
         protected override void GameMessageReceive(UserToken token, SocketModel message)
         {
+            int userid = cache.CacheFactory.user.GetIdToToken(token);
             switch (message .command)
             {
                 //请求看牌
@@ -48,7 +177,10 @@ namespace Server.logic.fight
                     break;
                 //请求下注
                 case FightProtocol.TPBETCOIN_CREQ:
-                    { }
+                    {
+                        DebugUtil.Instance.LogToTime("请求下注"+message .GetMessage <int >());
+                        ReqBet(userid, message.GetMessage<int>());
+                    }
                     break;
                 //请求弃牌
                 case FightProtocol.TPDISCARD_CREQ:

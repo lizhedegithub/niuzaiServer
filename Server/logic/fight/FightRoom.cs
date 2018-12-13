@@ -93,6 +93,11 @@ namespace Server.logic.fight
                         Leave(token);
                     }
                     break;
+                default:
+                    {
+                        GameMessageReceive(token, message);
+                    }
+                    break;
             }
         }
 
