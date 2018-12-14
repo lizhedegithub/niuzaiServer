@@ -14,6 +14,5 @@ E:\Git\niuzaiServer\GameProtocol\obj\Debug\GameProtocol.dll
 E:\Git\niuzaiServer\GameProtocol\obj\Debug\GameProtocol.pdb
 E:\Git\niuzai\Assets\Plugins\GameProtocol.dll
 E:\Git\niuzai\Assets\Plugins\GameProtocol.pdb
-E:\Git\niuzaiServer\GameProtocol\obj\Debug\GameProtocol.csprojResolveAssemblyReference.cache
 E:\Git\niuzaiServer\Server\bin\Debug\GameProtocol.dll
 E:\Git\niuzaiServer\Server\bin\Debug\GameProtocol.pdb

@@ -50,14 +50,75 @@ namespace Server.logic.fight
         Dictionary<int, List<int >> BetCoinList = new Dictionary<int, List<int >>();
 
         /// <summary>
+        /// 弃牌的玩家列表
+        /// </summary>
+        List<int> DisCardList = new List<int>();
+
+        /// <summary>
+        /// 请求看牌
+        /// </summary>
+        /// <param name="uid">看牌的玩家</param>
+        private void ReqCheckCard(int uid)
+        {
+            if(!UserFight .ContainsKey (uid ) || !LoopOrder .Contains (uid))
+            {
+                DebugUtil.Instance.LogToTime(uid + "请求看牌失败，没有此玩家");
+                return;
+            }
+            if(CheckList .Contains (uid))
+            {
+                DebugUtil.Instance.LogToTime(uid + "请求看牌失败，已经看过牌了");
+                return;
+            }
+            //告知玩家自己的手牌
+            SendMessage(uid, FightProtocol.TPCHECKCARD_CRES, UserFight[uid].poker);
+            //通知所有人，自己看过牌了
+            Broadcast(FightProtocol.TPCHECKCARD_BRQ, uid);
+            //将看牌的玩家添加到列表中
+            CheckList.Add(uid);
+            DebugUtil.Instance.LogToTime(uid + "请求看牌成功,房间号："+RoomId );
+        }
+
+        /// <summary>
+        /// 请求弃牌
+        /// </summary>
+        /// <param name="uid"></param>
+        private void RepDisCard(int uid)
+        {
+            if (!UserFight.ContainsKey(uid) || !LoopOrder.Contains(uid))
+            {
+                DebugUtil.Instance.LogToTime(uid + "请求弃牌失败，没有此玩家");
+                return;
+            }
+            if(DisCardList .Contains (uid))
+            {
+                DebugUtil.Instance.LogToTime(uid + "请求弃牌失败，已经弃过牌了");
+                return;
+            }
+            if(LoopOrder.Count < 2)
+            {
+                DebugUtil.Instance.LogToTime(uid + "请求弃牌失败，玩家不足了，最后一个人直接胜利");
+                return;
+            }
+            //广播玩家弃牌消息
+            Broadcast(FightProtocol.TPDISCARD_BRQ, uid);
+            //将玩家添加到弃牌列表中
+            DisCardList.Add(uid);
+            //将玩家从当前玩家列表中删除
+            LoopOrder.Remove(uid);
+            DebugUtil.Instance.LogToTime(uid + "请求弃牌成功");
+            //TODO:NEXT  LOOPORDER(继续下一个玩家)
+        }
+
+        /// <summary>
         /// 请求下注
         /// </summary>
         /// <param name="uid">请求下注的玩家</param>
         /// <param name="coin">请求下注的金额</param>
         private void ReqBet(int uid,int coin)
         {
-            //初始请求的下注金额
-            int initCoin = coin;
+            //下注金额coin== -1,是跟注，否则加注
+            bool initCoin = coin == -1 ? false : true;
             if(!UserFight .ContainsKey (uid ) || !LoopOrder .Contains (uid))
             {
                 DebugUtil.Instance.LogToTime("请求错误，没有此玩家");
@@ -86,6 +147,9 @@ namespace Server.logic.fight
                     if (coin == 4)
                         coin = 5;
                 }
+                initCoin = coin ==(NowScore *2) ? false : true;
+                if (coin == 5 && NowScore == 2)
+                    initCoin = false;
                 //是否小于最小可下注金额
                 if (coin <NowScore * 2)
                 {
@@ -109,6 +173,7 @@ namespace Server.logic.fight
             {
                 if (coin == -1)
                     coin = NowScore;
+                initCoin = coin == NowScore ? false : true;
                 //是否小于最小可下注金额
                 if (coin < NowScore )
                 {
@@ -130,12 +195,57 @@ namespace Server.logic.fight
         }
 
         /// <summary>
+        /// 请求比牌
+        /// </summary>
+        /// <param name="uid">比牌的玩家</param>
+        /// <param name="cid">被比牌的玩家</param>
+        private void ReqComCard(int uid,int cid)
+        {
+            if(!UserFight .ContainsKey (uid ) || !LoopOrder .Contains (uid))
+            {
+                DebugUtil.Instance.LogToTime(uid + "请求比牌失败，没有此玩家");
+                return;
+            }
+            if (!UserFight.ContainsKey(cid) || !LoopOrder.Contains(cid))
+            {
+                DebugUtil.Instance.LogToTime(cid + "请求比牌失败，没有此玩家");
+                return;
+            }
+            if(LoopOrder [0]!=uid)
+            {
+                DebugUtil.Instance.LogToTime(cid + "请求比牌错误，当前不是此玩家");
+                SendMessage(uid, FightProtocol.TPCOMCARD_SRES, -2);
+                return;
+            }
+            if(!IsGameStart)
+            {
+                DebugUtil.Instance.LogToTime(uid + "请求错误，游戏尚未开始");
+                SendMessage(uid, FightProtocol.TPCOMCARD_SRES, -3);
+                return;
+            }
+            //首轮可比  三轮可比  五轮可比
+            //默认首轮可比，将玩家的手牌和被比玩家的手牌传入，获取结果
+            bool GetResult = TPokerUtil.GetComparePoker(UserFight[uid].poker, UserFight[cid].poker);
+            for (int i = 0; i < LoopOrder .Count ; i++)
+            {
+                TPCompareModel model = new TPCompareModel();
+                model.userId = uid;
+                model.compId = cid;
+                model.Result = GetResult;
+                if (LoopOrder [i]==uid || LoopOrder [i]==cid)
+                {
+
+                }
+            }
+        }
+
+        /// <summary>
         /// 处理下注事件
         /// </summary>
         /// <param name="uid"></param>
         /// <param name="coin"></param>
         /// <param name="initCoin"></param>
-        private void Bet(int uid,int coin,int initCoin)
+        private void Bet(int uid,int coin,bool initCoin)
         {
             //将当前下注玩家和下注金额添加到集合中，等待结算
             if (!BetCoinList.ContainsKey(uid))
@@ -145,7 +255,7 @@ namespace Server.logic.fight
             TPBetModel tpm = new TPBetModel();
             tpm.id = uid;
             tpm.coin = coin;
-            tpm.isAdd = initCoin == -1 ? false : true;
+            tpm.isAdd = initCoin;
             Broadcast(FightProtocol.TPBETCOIN_BRQ, tpm);
             //更新玩家筹码后广播给所有玩家
             UserFight[uid].coin -= coin;
@@ -169,7 +279,9 @@ namespace Server.logic.fight
             {
                 //请求看牌
                 case FightProtocol.TPCHECKCARD_CREQ:
-                    { }
+                    {
+                        ReqCheckCard(userid);
+                    }
                     break;
                 //请求比牌
                 case FightProtocol.TPCOMCARD_CREQ:
@@ -184,7 +296,9 @@ namespace Server.logic.fight
                     break;
                 //请求弃牌
                 case FightProtocol.TPDISCARD_CREQ:
-                    { }
+                    {
+                        RepDisCard(userid);
+                    }
                     break;
             }
         }

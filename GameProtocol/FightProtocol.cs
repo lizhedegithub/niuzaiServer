@@ -78,10 +78,12 @@ namespace GameProtocol
         public const int TPCHECKCARD_CREQ = 4104;
         /// <summary>
         /// 返回看牌结果
+        /// list<PokerModel>
         /// </summary>
-        public const int TPCHECKCARD_CRES = 4105;
+        public const int TPCHECKCARD_SRES = 4105;
         /// <summary>
         /// 广播看牌
+        /// int 看牌的玩家
         /// </summary>
         public const int TPCHECKCARD_BRQ = 4106;
         /// <summary>
@@ -117,8 +119,9 @@ namespace GameProtocol
         public const int TPCOMCARD_CREQ = 4112;
         /// <summary>
         /// 返回比牌结果
+        /// 
         /// </summary>
-        public const int TPCOMCARD_CRES = 4112;
+        public const int TPCOMCARD_SRES = 4112;
         /// <summary>
         /// 比牌广播
         /// </summary>
