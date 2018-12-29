@@ -20,13 +20,13 @@ namespace Server.business
         {
             //判断连接是否为空
             if (token == null) return null;
-            RoleInfo info = cache.CacheFactory.user.Get(token);
+            roleinfo info = cache.CacheFactory.user.Get(token);
             if (info == null)
             {
                 return null;
             }
             UserModel model = new UserModel();
-            model.id = info.Id;
+            model.id = info.id;
             model.head = info.head;
             model.username = info.username;
             model.nickname = info.nickname;

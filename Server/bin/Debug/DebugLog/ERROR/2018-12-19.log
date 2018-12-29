@@ -1,0 +1,20 @@
+打开数据库失败System.ArgumentException: Keyword not supported.
+参数名: psd
+   在 MySql.Data.MySqlClient.MySqlConnectionStringBuilder.GetKey(String key)
+   在 MySql.Data.MySqlClient.MySqlConnectionStringBuilder.SetValue(String keyword, Object value)
+   在 MySql.Data.MySqlClient.MySqlConnectionStringBuilder.set_Item(String key, Object value)
+   在 System.Data.Common.DbConnectionStringBuilder.set_ConnectionString(String value)
+   在 MySql.Data.MySqlClient.MySqlConnectionStringBuilder..ctor(String connectionString)
+   在 MySql.Data.MySqlClient.MySqlConnection.set_ConnectionString(String value)
+   在 MySql.Data.MySqlClient.MySqlConnection..ctor(String connectionString)
+   在 MySQLTools.MySQLUtil.Connect() 位置 E:\Git\niuzaiServer\MySQLTools\MySQLUtil.cs:行号 74   10：38：56：8900
+打开数据库失败System.ArgumentException: Keyword not supported.
+参数名: psd
+   在 MySql.Data.MySqlClient.MySqlConnectionStringBuilder.GetKey(String key)
+   在 MySql.Data.MySqlClient.MySqlConnectionStringBuilder.SetValue(String keyword, Object value)
+   在 MySql.Data.MySqlClient.MySqlConnectionStringBuilder.set_Item(String key, Object value)
+   在 System.Data.Common.DbConnectionStringBuilder.set_ConnectionString(String value)
+   在 MySql.Data.MySqlClient.MySqlConnectionStringBuilder..ctor(String connectionString)
+   在 MySql.Data.MySqlClient.MySqlConnection.set_ConnectionString(String value)
+   在 MySql.Data.MySqlClient.MySqlConnection..ctor(String connectionString)
+   在 MySQLTools.MySQLUtil.Connect() 位置 E:\Git\niuzaiServer\MySQLTools\MySQLUtil.cs:行号 75   02：39：44：1090

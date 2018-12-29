@@ -36,3 +36,6 @@ E:\Git\niuzaiServer\Server\bin\Debug\ServerTools.pdb
 E:\Git\niuzaiServer\Server\obj\Debug\Server.csprojResolveAssemblyReference.cache
 E:\Git\niuzaiServer\Server\obj\Debug\Server.exe
 E:\Git\niuzaiServer\Server\obj\Debug\Server.pdb
+E:\Git\niuzaiServer\Server\bin\Debug\MySql.Data.dll
+E:\Git\niuzaiServer\Server\bin\Debug\MySQLTools.dll
+E:\Git\niuzaiServer\Server\bin\Debug\MySQLTools.pdb

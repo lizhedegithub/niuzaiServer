@@ -1,24 +1,834 @@
-ï»¿
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using MySQLTools;
 
+/*****************************************************
+ * ±¾½Å±¾ÓÉMySQL´úÂë×Ô¶¯Éú³É¹¤¾ß×Ô¶¯Éú³É
+ * Éú³ÉÈÕÆÚ:2018Äê6ÔÂ29ÈÕ14Ê±21·Ö23Ãë
+ * ÎÄ¼şÃèÊö:Íæ¼ÒµÄÊı¾İ¿âËù¶ÔÓ¦µÄĞÅÏ¢
+ * ÎÄ¼şÃû:roleinfo.cs
+ * ´´½¨ÈË:
+ ****************************************************/
 namespace Server.dao
 {
-    public class RoleInfo
+    public partial class roleinfo
     {
-        public int Id=-1;//ç”¨æˆ·id
-        public string username;//è´¦å·
-        public string password;//å¯†ç 
-        public string nickname;//æ˜µç§°
+        private string tablename = "roleinfo";
+        #region Model
 
-        public string head="default";//å¤´åƒ
-        public int coin=10000;//é‡‘å¸
-        public int cash=10000;//é’»çŸ³
-        public int sex=0;//æ€§åˆ« 0ç”· 1å¥³ 2æœªçŸ¥
-        public string phone="";//æ‰‹æœºå·
-        public int rank=0;//æ’è¡Œåˆ†æ•°
+        private int _id = -1;
+        private string _username;
+        private string _password;
+        private string _nickname;
+        private string _head;
+        private int _coin =1000;
+        private int _cash;
+        private int _sex;
+        private string _phone;
+        private int _rank;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int id
+        {
+            set { _id = value; }
+            get { return _id; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string username
+        {
+            set { _username = value; }
+            get { return _username; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string password
+        {
+            set { _password = value; }
+            get { return _password; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string nickname
+        {
+            set { _nickname = value; }
+            get { return _nickname; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string head
+        {
+            set { _head = value; }
+            get { return _head; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int coin
+        {
+            set { _coin = value; }
+            get { return _coin; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int cash
+        {
+            set { _cash = value; }
+            get { return _cash; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int sex
+        {
+            set { _sex = value; }
+            get { return _sex; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string phone
+        {
+            set { _phone = value; }
+            get { return _phone; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int rank
+        {
+            set { _rank = value; }
+            get { return _rank; }
+        }
+
+        #endregion Model
+
+        #region Method
+        public roleinfo() { }
+
+        #region »ñÈ¡¶ÔÏó
+        /// <summary>
+        /// ¸ù¾İ Id µÃµ½Ò»¸ö¶ÔÏóÊµÌå
+        /// </summary>
+        public void GetModelById(int id)
+        {
+            DictionaryPara p = new DictionaryPara(tablename, true);
+            p.Add("id", id);
+            p.Add("username", null);
+            p.Add("password", null);
+            p.Add("nickname", null);
+            p.Add("head", null);
+            p.Add("coin", null);
+            p.Add("cash", null);
+            p.Add("sex", null);
+            p.Add("phone", null);
+            p.Add("rank", null);
+
+            SqlManager.Instance.GetTable(ref p);
+            if (p != null && p.Count > 0)
+            {
+                if (!string.IsNullOrEmpty(p["id"]))
+                { this.id = int.Parse(p["id"]);
+                }
+                if (!string.IsNullOrEmpty(p["username"]))
+                { this.username = p["username"];
+                }
+                if (!string.IsNullOrEmpty(p["password"]))
+                { this.password = p["password"];
+                }
+                if (!string.IsNullOrEmpty(p["nickname"]))
+                { this.nickname = p["nickname"];
+                }
+                if (!string.IsNullOrEmpty(p["head"]))
+                { this.head = p["head"];
+                }
+                if (!string.IsNullOrEmpty(p["coin"]))
+                { this.coin = int.Parse(p["coin"]);
+                }
+                if (!string.IsNullOrEmpty(p["cash"]))
+                { this.cash = int.Parse(p["cash"]);
+                }
+                if (!string.IsNullOrEmpty(p["sex"]))
+                { this.sex = int.Parse(p["sex"]);
+                }
+                if (!string.IsNullOrEmpty(p["phone"]))
+                { this.phone = p["phone"];
+                }
+                if (!string.IsNullOrEmpty(p["rank"]))
+                { this.rank = int.Parse(p["rank"]);
+                }
+            }
+        }
+        /// <summary>
+        /// ¸ù¾İ Username µÃµ½Ò»¸ö¶ÔÏóÊµÌå
+        /// </summary>
+        public void GetModelByUsername(string username)
+        {
+            DictionaryPara p = new DictionaryPara(tablename, true);
+            p.Add("username", username);
+            p.Add("id", null);
+            p.Add("password", null);
+            p.Add("nickname", null);
+            p.Add("head", null);
+            p.Add("coin", null);
+            p.Add("cash", null);
+            p.Add("sex", null);
+            p.Add("phone", null);
+            p.Add("rank", null);
+
+            SqlManager.Instance.GetTable(ref p);
+            if (p != null && p.Count > 0)
+            {
+                if (!string.IsNullOrEmpty(p["id"]))
+                { this.id = int.Parse(p["id"]);
+                }
+                if (!string.IsNullOrEmpty(p["username"]))
+                { this.username = p["username"];
+                }
+                if (!string.IsNullOrEmpty(p["password"]))
+                { this.password = p["password"];
+                }
+                if (!string.IsNullOrEmpty(p["nickname"]))
+                { this.nickname = p["nickname"];
+                }
+                if (!string.IsNullOrEmpty(p["head"]))
+                { this.head = p["head"];
+                }
+                if (!string.IsNullOrEmpty(p["coin"]))
+                { this.coin = int.Parse(p["coin"]);
+                }
+                if (!string.IsNullOrEmpty(p["cash"]))
+                { this.cash = int.Parse(p["cash"]);
+                }
+                if (!string.IsNullOrEmpty(p["sex"]))
+                { this.sex = int.Parse(p["sex"]);
+                }
+                if (!string.IsNullOrEmpty(p["phone"]))
+                { this.phone = p["phone"];
+                }
+                if (!string.IsNullOrEmpty(p["rank"]))
+                { this.rank = int.Parse(p["rank"]);
+                }
+            }
+        }
+        /// <summary>
+        /// ¸ù¾İ Nickname µÃµ½Ò»¸ö¶ÔÏóÊµÌå
+        /// </summary>
+        public void GetModelByNickname(string nickname)
+        {
+            DictionaryPara p = new DictionaryPara(tablename, true);
+            p.Add("nickname", nickname);
+            p.Add("id", null);
+            p.Add("username", null);
+            p.Add("password", null);
+            p.Add("head", null);
+            p.Add("coin", null);
+            p.Add("cash", null);
+            p.Add("sex", null);
+            p.Add("phone", null);
+            p.Add("rank", null);
+
+            SqlManager.Instance.GetTable(ref p);
+            if (p != null && p.Count > 0)
+            {
+                if (!string.IsNullOrEmpty(p["id"]))
+                { this.id = int.Parse(p["id"]);
+                }
+                if (!string.IsNullOrEmpty(p["username"]))
+                { this.username = p["username"];
+                }
+                if (!string.IsNullOrEmpty(p["password"]))
+                { this.password = p["password"];
+                }
+                if (!string.IsNullOrEmpty(p["nickname"]))
+                { this.nickname = p["nickname"];
+                }
+                if (!string.IsNullOrEmpty(p["head"]))
+                { this.head = p["head"];
+                }
+                if (!string.IsNullOrEmpty(p["coin"]))
+                { this.coin = int.Parse(p["coin"]);
+                }
+                if (!string.IsNullOrEmpty(p["cash"]))
+                { this.cash = int.Parse(p["cash"]);
+                }
+                if (!string.IsNullOrEmpty(p["sex"]))
+                { this.sex = int.Parse(p["sex"]);
+                }
+                if (!string.IsNullOrEmpty(p["phone"]))
+                { this.phone = p["phone"];
+                }
+                if (!string.IsNullOrEmpty(p["rank"]))
+                { this.rank = int.Parse(p["rank"]);
+                }
+            }
+        }
+        /// <summary>
+        /// ¸ù¾İ Phone µÃµ½Ò»¸ö¶ÔÏóÊµÌå
+        /// </summary>
+        public void GetModelByPhone(string phone)
+        {
+            DictionaryPara p = new DictionaryPara(tablename, true);
+            p.Add("phone", phone);
+            p.Add("id", null);
+            p.Add("username", null);
+            p.Add("password", null);
+            p.Add("nickname", null);
+            p.Add("head", null);
+            p.Add("coin", null);
+            p.Add("cash", null);
+            p.Add("sex", null);
+            p.Add("rank", null);
+
+            SqlManager.Instance.GetTable(ref p);
+            if (p != null && p.Count > 0)
+            {
+                if (!string.IsNullOrEmpty(p["id"]))
+                { this.id = int.Parse(p["id"]);
+                }
+                if (!string.IsNullOrEmpty(p["username"]))
+                { this.username = p["username"];
+                }
+                if (!string.IsNullOrEmpty(p["password"]))
+                { this.password = p["password"];
+                }
+                if (!string.IsNullOrEmpty(p["nickname"]))
+                { this.nickname = p["nickname"];
+                }
+                if (!string.IsNullOrEmpty(p["head"]))
+                { this.head = p["head"];
+                }
+                if (!string.IsNullOrEmpty(p["coin"]))
+                { this.coin = int.Parse(p["coin"]);
+                }
+                if (!string.IsNullOrEmpty(p["cash"]))
+                { this.cash = int.Parse(p["cash"]);
+                }
+                if (!string.IsNullOrEmpty(p["sex"]))
+                { this.sex = int.Parse(p["sex"]);
+                }
+                if (!string.IsNullOrEmpty(p["phone"]))
+                { this.phone = p["phone"];
+                }
+                if (!string.IsNullOrEmpty(p["rank"]))
+                { this.rank = int.Parse(p["rank"]);
+                }
+            }
+        }
+        #endregion »ñÈ¡¶ÔÏó
+
+        #region Ôö¼ÓÒ»ÌõÊı¾İ
+        /// <summary>
+        /// Ôö¼ÓÒ»ÌõÊı¾İ
+        /// </summary>
+        public bool Add()
+        {
+            DictionaryPara p = new DictionaryPara(tablename, true);
+            p.Add("id", id);
+            if (!string.IsNullOrEmpty(username)) p.Add("username", username);
+            if (!string.IsNullOrEmpty(password)) p.Add("password", password);
+            if (!string.IsNullOrEmpty(nickname)) p.Add("nickname", nickname);
+            if (!string.IsNullOrEmpty(head)) p.Add("head", head);
+            p.Add("coin", coin);
+            p.Add("cash", cash);
+            p.Add("sex", sex);
+            if (!string.IsNullOrEmpty(phone)) p.Add("phone", phone);
+            p.Add("rank", rank);
+
+            return SqlManager.Instance.AddTableAtItems(p);
+        }
+        #endregion Ôö¼ÓÒ»ÌõÊı¾İ
+
+        #region É¾³ıÒ»ÌõÊı¾İ
+        /// <summary>
+        /// É¾³ıÒ»ÌõÊı¾İ
+        /// </summary>
+        public bool Delete()
+        {
+            DictionaryPara p = new DictionaryPara(tablename, true);
+            p.Add("id", id);
+
+            return SqlManager.Instance.Delete(p);
+        }
+        #endregion É¾³ıÒ»ÌõÊı¾İ
+
+        #region Ë¢ĞÂÖµ
+        /// <summary>
+        /// ¸ù¾İÖ÷¼üË¢ĞÂÈ«²¿µÄÖµ
+        /// </summary>
+        public bool Update()
+        {
+            DictionaryPara p = new DictionaryPara(tablename, true);
+            p.Add("id", id);
+            if (!string.IsNullOrEmpty(username))
+                p.Add("username", username);
+            if (!string.IsNullOrEmpty(password))
+                p.Add("password", password);
+            if (!string.IsNullOrEmpty(nickname))
+                p.Add("nickname", nickname);
+            if (!string.IsNullOrEmpty(head))
+                p.Add("head", head);
+            p.Add("coin", coin);
+            p.Add("cash", cash);
+            p.Add("sex", sex);
+            if (!string.IsNullOrEmpty(phone))
+                p.Add("phone", phone);
+            p.Add("rank", rank);
+
+            return SqlManager.Instance.UpdateInItems(p);
+        }
+        /// <summary>
+        /// ¸ù¾İÖ÷¼üË¢ĞÂ Username µÄÖµ
+        /// </summary>
+        public bool UpdateByUsername()
+        {
+            DictionaryPara p = new DictionaryPara(tablename, true);
+            p.Add("id", id);
+            if (!string.IsNullOrEmpty(username))
+                p.Add("username", username);
+
+            return SqlManager.Instance.UpdateInItems(p);
+        }
+        /// <summary>
+        /// ¸ù¾İÖ÷¼üË¢ĞÂ Password µÄÖµ
+        /// </summary>
+        public bool UpdateByPassword()
+        {
+            DictionaryPara p = new DictionaryPara(tablename, true);
+            p.Add("id", id);
+            if (!string.IsNullOrEmpty(password))
+                p.Add("password", password);
+
+            return SqlManager.Instance.UpdateInItems(p);
+        }
+        /// <summary>
+        /// ¸ù¾İÖ÷¼üË¢ĞÂ Nickname µÄÖµ
+        /// </summary>
+        public bool UpdateByNickname()
+        {
+            DictionaryPara p = new DictionaryPara(tablename, true);
+            p.Add("id", id);
+            if (!string.IsNullOrEmpty(nickname))
+                p.Add("nickname", nickname);
+
+            return SqlManager.Instance.UpdateInItems(p);
+        }
+        /// <summary>
+        /// ¸ù¾İÖ÷¼üË¢ĞÂ Head µÄÖµ
+        /// </summary>
+        public bool UpdateByHead()
+        {
+            DictionaryPara p = new DictionaryPara(tablename, true);
+            p.Add("id", id);
+            if (!string.IsNullOrEmpty(head))
+                p.Add("head", head);
+
+            return SqlManager.Instance.UpdateInItems(p);
+        }
+        /// <summary>
+        /// ¸ù¾İÖ÷¼üË¢ĞÂ Coin µÄÖµ
+        /// </summary>
+        public bool UpdateByCoin()
+        {
+            DictionaryPara p = new DictionaryPara(tablename, true);
+            p.Add("id", id);
+            p.Add("coin", coin);
+
+            return SqlManager.Instance.UpdateInItems(p);
+        }
+        /// <summary>
+        /// ¸ù¾İÖ÷¼üË¢ĞÂ Cash µÄÖµ
+        /// </summary>
+        public bool UpdateByCash()
+        {
+            DictionaryPara p = new DictionaryPara(tablename, true);
+            p.Add("id", id);
+            p.Add("cash", cash);
+
+            return SqlManager.Instance.UpdateInItems(p);
+        }
+        /// <summary>
+        /// ¸ù¾İÖ÷¼üË¢ĞÂ Sex µÄÖµ
+        /// </summary>
+        public bool UpdateBySex()
+        {
+            DictionaryPara p = new DictionaryPara(tablename, true);
+            p.Add("id", id);
+            p.Add("sex", sex);
+
+            return SqlManager.Instance.UpdateInItems(p);
+        }
+        /// <summary>
+        /// ¸ù¾İÖ÷¼üË¢ĞÂ Phone µÄÖµ
+        /// </summary>
+        public bool UpdateByPhone()
+        {
+            DictionaryPara p = new DictionaryPara(tablename, true);
+            p.Add("id", id);
+            if (!string.IsNullOrEmpty(phone))
+                p.Add("phone", phone);
+
+            return SqlManager.Instance.UpdateInItems(p);
+        }
+        /// <summary>
+        /// ¸ù¾İÖ÷¼üË¢ĞÂ Rank µÄÖµ
+        /// </summary>
+        public bool UpdateByRank()
+        {
+            DictionaryPara p = new DictionaryPara(tablename, true);
+            p.Add("id", id);
+            p.Add("rank", rank);
+
+            return SqlManager.Instance.UpdateInItems(p);
+        }
+        #endregion Ë¢ĞÂÖµ
+
+        #region »ñÈ¡ÁĞÈ«²¿Öµ
+        /// <summary>
+        /// ¸ù¾İ Id »ñÈ¡ÁĞÈ«²¿ÖµµÄÖµ
+        /// </summary>
+        public List<int> GetRowById()
+        {
+            DictionaryPara p = new DictionaryPara(tablename);
+            p.Add("id", id);
+
+            List<DictionaryPara> dp = SqlManager.Instance.GetColume(p);
+            List<int> list = new List<int>();
+            if (dp == null) return list; for (int i = 0; i < dp.Count; i++)
+                if (!string.IsNullOrEmpty(dp[i]["id"]))
+                    list.Add(int.Parse(dp[i]["id"]));
+            return list;
+        }
+        /// <summary>
+        /// ¸ù¾İ Username »ñÈ¡ÁĞÈ«²¿ÖµµÄÖµ
+        /// </summary>
+        public List<string> GetRowByUsername()
+        {
+            DictionaryPara p = new DictionaryPara(tablename);
+            p.Add("username", username);
+
+            List<DictionaryPara> dp = SqlManager.Instance.GetColume(p);
+            List<string> list = new List<string>();
+            if (dp == null) return list; for (int i = 0; i < dp.Count; i++)
+                if (!string.IsNullOrEmpty(dp[i]["username"]))
+                    list.Add(dp[i]["username"]);
+            return list;
+        }
+        /// <summary>
+        /// ¸ù¾İ Password »ñÈ¡ÁĞÈ«²¿ÖµµÄÖµ
+        /// </summary>
+        public List<string> GetRowByPassword()
+        {
+            DictionaryPara p = new DictionaryPara(tablename);
+            p.Add("password", password);
+
+            List<DictionaryPara> dp = SqlManager.Instance.GetColume(p);
+            List<string> list = new List<string>();
+            if (dp == null) return list; for (int i = 0; i < dp.Count; i++)
+                if (!string.IsNullOrEmpty(dp[i]["password"]))
+                    list.Add(dp[i]["password"]);
+            return list;
+        }
+        /// <summary>
+        /// ¸ù¾İ Nickname »ñÈ¡ÁĞÈ«²¿ÖµµÄÖµ
+        /// </summary>
+        public List<string> GetRowByNickname()
+        {
+            DictionaryPara p = new DictionaryPara(tablename);
+            p.Add("nickname", nickname);
+
+            List<DictionaryPara> dp = SqlManager.Instance.GetColume(p);
+            List<string> list = new List<string>();
+            if (dp == null) return list; for (int i = 0; i < dp.Count; i++)
+                if (!string.IsNullOrEmpty(dp[i]["nickname"]))
+                    list.Add(dp[i]["nickname"]);
+            return list;
+        }
+        /// <summary>
+        /// ¸ù¾İ Head »ñÈ¡ÁĞÈ«²¿ÖµµÄÖµ
+        /// </summary>
+        public List<string> GetRowByHead()
+        {
+            DictionaryPara p = new DictionaryPara(tablename);
+            p.Add("head", head);
+
+            List<DictionaryPara> dp = SqlManager.Instance.GetColume(p);
+            List<string> list = new List<string>();
+            if (dp == null) return list; for (int i = 0; i < dp.Count; i++)
+                if (!string.IsNullOrEmpty(dp[i]["head"]))
+                    list.Add(dp[i]["head"]);
+            return list;
+        }
+        /// <summary>
+        /// ¸ù¾İ Coin »ñÈ¡ÁĞÈ«²¿ÖµµÄÖµ
+        /// </summary>
+        public List<int> GetRowByCoin()
+        {
+            DictionaryPara p = new DictionaryPara(tablename);
+            p.Add("coin", coin);
+
+            List<DictionaryPara> dp = SqlManager.Instance.GetColume(p);
+            List<int> list = new List<int>();
+            if (dp == null) return list; for (int i = 0; i < dp.Count; i++)
+                if (!string.IsNullOrEmpty(dp[i]["coin"]))
+                    list.Add(int.Parse(dp[i]["coin"]));
+            return list;
+        }
+        /// <summary>
+        /// ¸ù¾İ Cash »ñÈ¡ÁĞÈ«²¿ÖµµÄÖµ
+        /// </summary>
+        public List<int> GetRowByCash()
+        {
+            DictionaryPara p = new DictionaryPara(tablename);
+            p.Add("cash", cash);
+
+            List<DictionaryPara> dp = SqlManager.Instance.GetColume(p);
+            List<int> list = new List<int>();
+            if (dp == null) return list; for (int i = 0; i < dp.Count; i++)
+                if (!string.IsNullOrEmpty(dp[i]["cash"]))
+                    list.Add(int.Parse(dp[i]["cash"]));
+            return list;
+        }
+        /// <summary>
+        /// ¸ù¾İ Sex »ñÈ¡ÁĞÈ«²¿ÖµµÄÖµ
+        /// </summary>
+        public List<int> GetRowBySex()
+        {
+            DictionaryPara p = new DictionaryPara(tablename);
+            p.Add("sex", sex);
+
+            List<DictionaryPara> dp = SqlManager.Instance.GetColume(p);
+            List<int> list = new List<int>();
+            if (dp == null) return list; for (int i = 0; i < dp.Count; i++)
+                if (!string.IsNullOrEmpty(dp[i]["sex"]))
+                    list.Add(int.Parse(dp[i]["sex"]));
+            return list;
+        }
+        /// <summary>
+        /// ¸ù¾İ Phone »ñÈ¡ÁĞÈ«²¿ÖµµÄÖµ
+        /// </summary>
+        public List<string> GetRowByPhone()
+        {
+            DictionaryPara p = new DictionaryPara(tablename);
+            p.Add("phone", phone);
+
+            List<DictionaryPara> dp = SqlManager.Instance.GetColume(p);
+            List<string> list = new List<string>();
+            if (dp == null) return list; for (int i = 0; i < dp.Count; i++)
+                if (!string.IsNullOrEmpty(dp[i]["phone"]))
+                    list.Add(dp[i]["phone"]);
+            return list;
+        }
+        /// <summary>
+        /// ¸ù¾İ Rank »ñÈ¡ÁĞÈ«²¿ÖµµÄÖµ
+        /// </summary>
+        public List<int> GetRowByRank()
+        {
+            DictionaryPara p = new DictionaryPara(tablename);
+            p.Add("rank", rank);
+
+            List<DictionaryPara> dp = SqlManager.Instance.GetColume(p);
+            List<int> list = new List<int>();
+            if (dp == null) return list; for (int i = 0; i < dp.Count; i++)
+                if (!string.IsNullOrEmpty(dp[i]["rank"]))
+                    list.Add(int.Parse(dp[i]["rank"]));
+            return list;
+        }
+        #endregion »ñÈ¡ÁĞÈ«²¿Öµ
+
+        #region ¸ù¾İkey»ñÈ¡Êı¾İ±í×îºóÒ»ĞĞµÄÖµ
+        /// <summary>
+        /// ¸ù¾İ Id »ñÈ¡±¾ÁĞÊı¾İ±í×îºóÒ»ĞĞµÄÖµ
+        /// </summary>
+        public int GetEndLineValueById()
+        {
+            DictionaryPara p = new DictionaryPara(tablename);
+            p.Add("id", null);
+
+            SqlManager.Instance.GetEndLineValue(ref p);
+            if (p != null && p.Count > 0)
+            {
+                if (!string.IsNullOrEmpty(p["id"]))
+                {
+                    return int.Parse(p["id"]);
+                }
+            }
+            return 0;
+        }
+        /// <summary>
+        /// ¸ù¾İ Username »ñÈ¡±¾ÁĞÊı¾İ±í×îºóÒ»ĞĞµÄÖµ
+        /// </summary>
+        public string GetEndLineValueByUsername()
+        {
+            DictionaryPara p = new DictionaryPara(tablename);
+            p.Add("username", null);
+
+            SqlManager.Instance.GetEndLineValue(ref p);
+            if (p != null && p.Count > 0)
+            {
+                if (!string.IsNullOrEmpty(p["username"]))
+                {
+                    return p["username"];
+                }
+            }
+            return null;
+        }
+        /// <summary>
+        /// ¸ù¾İ Password »ñÈ¡±¾ÁĞÊı¾İ±í×îºóÒ»ĞĞµÄÖµ
+        /// </summary>
+        public string GetEndLineValueByPassword()
+        {
+            DictionaryPara p = new DictionaryPara(tablename);
+            p.Add("password", null);
+
+            SqlManager.Instance.GetEndLineValue(ref p);
+            if (p != null && p.Count > 0)
+            {
+                if (!string.IsNullOrEmpty(p["password"]))
+                {
+                    return p["password"];
+                }
+            }
+            return null;
+        }
+        /// <summary>
+        /// ¸ù¾İ Nickname »ñÈ¡±¾ÁĞÊı¾İ±í×îºóÒ»ĞĞµÄÖµ
+        /// </summary>
+        public string GetEndLineValueByNickname()
+        {
+            DictionaryPara p = new DictionaryPara(tablename);
+            p.Add("nickname", null);
+
+            SqlManager.Instance.GetEndLineValue(ref p);
+            if (p != null && p.Count > 0)
+            {
+                if (!string.IsNullOrEmpty(p["nickname"]))
+                {
+                    return p["nickname"];
+                }
+            }
+            return null;
+        }
+        /// <summary>
+        /// ¸ù¾İ Head »ñÈ¡±¾ÁĞÊı¾İ±í×îºóÒ»ĞĞµÄÖµ
+        /// </summary>
+        public string GetEndLineValueByHead()
+        {
+            DictionaryPara p = new DictionaryPara(tablename);
+            p.Add("head", null);
+
+            SqlManager.Instance.GetEndLineValue(ref p);
+            if (p != null && p.Count > 0)
+            {
+                if (!string.IsNullOrEmpty(p["head"]))
+                {
+                    return p["head"];
+                }
+            }
+            return null;
+        }
+        /// <summary>
+        /// ¸ù¾İ Coin »ñÈ¡±¾ÁĞÊı¾İ±í×îºóÒ»ĞĞµÄÖµ
+        /// </summary>
+        public int GetEndLineValueByCoin()
+        {
+            DictionaryPara p = new DictionaryPara(tablename);
+            p.Add("coin", null);
+
+            SqlManager.Instance.GetEndLineValue(ref p);
+            if (p != null && p.Count > 0)
+            {
+                if (!string.IsNullOrEmpty(p["coin"]))
+                {
+                    return int.Parse(p["coin"]);
+                }
+            }
+            return 0;
+        }
+        /// <summary>
+        /// ¸ù¾İ Cash »ñÈ¡±¾ÁĞÊı¾İ±í×îºóÒ»ĞĞµÄÖµ
+        /// </summary>
+        public int GetEndLineValueByCash()
+        {
+            DictionaryPara p = new DictionaryPara(tablename);
+            p.Add("cash", null);
+
+            SqlManager.Instance.GetEndLineValue(ref p);
+            if (p != null && p.Count > 0)
+            {
+                if (!string.IsNullOrEmpty(p["cash"]))
+                {
+                    return int.Parse(p["cash"]);
+                }
+            }
+            return 0;
+        }
+        /// <summary>
+        /// ¸ù¾İ Sex »ñÈ¡±¾ÁĞÊı¾İ±í×îºóÒ»ĞĞµÄÖµ
+        /// </summary>
+        public int GetEndLineValueBySex()
+        {
+            DictionaryPara p = new DictionaryPara(tablename);
+            p.Add("sex", null);
+
+            SqlManager.Instance.GetEndLineValue(ref p);
+            if (p != null && p.Count > 0)
+            {
+                if (!string.IsNullOrEmpty(p["sex"]))
+                {
+                    return int.Parse(p["sex"]);
+                }
+            }
+            return 0;
+        }
+        /// <summary>
+        /// ¸ù¾İ Phone »ñÈ¡±¾ÁĞÊı¾İ±í×îºóÒ»ĞĞµÄÖµ
+        /// </summary>
+        public string GetEndLineValueByPhone()
+        {
+            DictionaryPara p = new DictionaryPara(tablename);
+            p.Add("phone", null);
+
+            SqlManager.Instance.GetEndLineValue(ref p);
+            if (p != null && p.Count > 0)
+            {
+                if (!string.IsNullOrEmpty(p["phone"]))
+                {
+                    return p["phone"];
+                }
+            }
+            return null;
+        }
+        /// <summary>
+        /// ¸ù¾İ Rank »ñÈ¡±¾ÁĞÊı¾İ±í×îºóÒ»ĞĞµÄÖµ
+        /// </summary>
+        public int GetEndLineValueByRank()
+        {
+            DictionaryPara p = new DictionaryPara(tablename);
+            p.Add("rank", null);
+
+            SqlManager.Instance.GetEndLineValue(ref p);
+            if (p != null && p.Count > 0)
+            {
+                if (!string.IsNullOrEmpty(p["rank"]))
+                {
+                    return int.Parse(p["rank"]);
+                }
+            }
+            return 0;
+        }
+        #endregion ¸ù¾İkey»ñÈ¡Êı¾İ±í×îºóÒ»ĞĞµÄÖµ
+
+        #endregion Method
+
     }
 }

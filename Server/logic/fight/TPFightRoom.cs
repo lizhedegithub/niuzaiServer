@@ -17,7 +17,10 @@ namespace Server.logic.fight
     /// </summary>
     public class TPFightRoom:FightRoom 
     {
-        int BetCoin = 1;
+        /// <summary>
+        /// 底注
+        /// </summary>
+        int BaseCoin = 1;
 
         /// <summary>
         /// 当前扑克列表
@@ -71,7 +74,7 @@ namespace Server.logic.fight
                 return;
             }
             //告知玩家自己的手牌
-            SendMessage(uid, FightProtocol.TPCHECKCARD_CRES, UserFight[uid].poker);
+            SendMessage(uid, FightProtocol.TPCHECKCARD_SRES, UserFight[uid].poker);
             //通知所有人，自己看过牌了
             Broadcast(FightProtocol.TPCHECKCARD_BRQ, uid);
             //将看牌的玩家添加到列表中
@@ -108,6 +111,8 @@ namespace Server.logic.fight
             LoopOrder.Remove(uid);
             DebugUtil.Instance.LogToTime(uid + "请求弃牌成功");
             //TODO:NEXT  LOOPORDER(继续下一个玩家)
+            if (LoopOrder.Count == 1)
+                GameOver();
         }
 
         /// <summary>
@@ -223,20 +228,49 @@ namespace Server.logic.fight
                 SendMessage(uid, FightProtocol.TPCOMCARD_SRES, -3);
                 return;
             }
+            int coin = NowScore;
+            if (CheckList.Contains(uid))
+                coin *= 2;
+            if (coin == 4)
+                coin = 5;
+            //将当前下注玩家和下注金额添加到集合中，等待结算
+            if (!BetCoinList.ContainsKey(uid))
+                BetCoinList.Add(uid, new List<int>());
+            BetCoinList[uid].Add(NowScore);
+            //声明待广播的数据,将下注数据广播
+            TPBetModel tpm = new TPBetModel();
+            tpm.id = uid;
+            tpm.coin = coin;
+            tpm.isAdd = false;
+            Broadcast(FightProtocol.TPBETCOIN_BRQ, tpm);
+            //更新玩家筹码后广播给所有玩家
+            UserFight[uid].coin -= coin;
+            Broadcast(FightProtocol.PLAYERINFO_BRQ, UserFight[uid]);
             //首轮可比  三轮可比  五轮可比
             //默认首轮可比，将玩家的手牌和被比玩家的手牌传入，获取结果
             bool GetResult = TPokerUtil.GetComparePoker(UserFight[uid].poker, UserFight[cid].poker);
+            DebugUtil.Instance.LogToTime(uid + "请求和" + cid + "比牌，比牌结果为：" + GetResult);
             for (int i = 0; i < LoopOrder .Count ; i++)
             {
                 TPCompareModel model = new TPCompareModel();
                 model.userId = uid;
                 model.compId = cid;
                 model.Result = GetResult;
+                //如果是比牌或被比牌的玩家，则可以看到牌
                 if (LoopOrder [i]==uid || LoopOrder [i]==cid)
                 {
-
+                    model.PokerList1.AddRange(UserFight[uid].poker);
+                    model.PokerList2.AddRange(UserFight[cid].poker);
                 }
+                SendMessage(LoopOrder[i], FightProtocol.TPCOMCARD_BRQ, model);
             }
+
+            if (GetResult)
+                LoopOrder.Remove(cid);
+            else
+                LoopOrder.Remove(uid);
+            if (LoopOrder.Count == 1)
+                GameOver();
         }
 
         /// <summary>
@@ -285,7 +319,9 @@ namespace Server.logic.fight
                     break;
                 //请求比牌
                 case FightProtocol.TPCOMCARD_CREQ:
-                    { }
+                    {
+                        ReqComCard(userid, message.GetMessage<int>());
+                    }
                     break;
                 //请求下注
                 case FightProtocol.TPBETCOIN_CREQ:
@@ -356,9 +392,9 @@ namespace Server.logic.fight
             //广播下注
             foreach (FightUserModel model in UserFight.Values )
             {
-                model.coin -= BetCoin;
+                model.coin -= BaseCoin;
             }
-            Broadcast(FightProtocol.TPBETBASECOIN_BRQ, LoopOrder.Count*BetCoin);
+            Broadcast(FightProtocol.TPBETBASECOIN_BRQ, LoopOrder.Count* BaseCoin);
             //广播玩家剩余筹码
             for (int i = 0; i < LoopOrder.Count; i++)
             {
@@ -366,12 +402,79 @@ namespace Server.logic.fight
             }
         }
 
+        private void GetSettlement()
+        {
+            if (LoopOrder.Count != 1) return;
+            List<TPSettlementModel> model = new List<TPSettlementModel>();
+            //将底注结算给玩家
+            int Coin = TemeId.Count * BaseCoin;
+            //失败的玩家
+            for (int i = 0; i < TemeId .Count; i++)
+            {
+                if (TemeId[i] == LoopOrder[0]) continue;
+                TPSettlementModel m = new TPSettlementModel();
+                m.id = TemeId[i];
+                //分数先减去底注
+                m.score -= BaseCoin;
+                m.nickName = UserFight[TemeId [i]].nickname;
+                //UserFight[TemeId[i]].coin -= BaseCoin;
+                if(BetCoinList .ContainsKey (TemeId[i]))
+                {
+                    for (int j = 0; j < BetCoinList [TemeId [i]].Count ; j++)
+                    {
+                        //再减去玩家下注的分数
+                        Coin += BetCoinList[TemeId[i]][j];
+                        m.score = BetCoinList[TemeId[i]][j];
+                        //UserFight[TemeId[i]].coin -= BetCoinList[TemeId[i]][j];
+                    }
+                }
+                m.poker.AddRange(UserFight[TemeId[i]].poker);
+                model.Add(m);
+            }
+            //胜利的玩家
+            TPSettlementModel m2 = new TPSettlementModel();
+            m2.id = LoopOrder[0];
+            //分数
+            m2.score = Coin-BaseCoin ;
+            m2.nickName = UserFight[LoopOrder[0]].nickname;
+            //添加玩家赢的筹码
+            UserFight[LoopOrder[0]].coin += Coin ;
+            //返还玩家下注的筹码
+            if (BetCoinList.ContainsKey(LoopOrder[0]))
+            {
+                for (int j = 0; j < BetCoinList[LoopOrder[0]].Count; j++)
+                {
+                    //再加上玩家自己下注的分数
+                    UserFight[LoopOrder[0]].coin += BetCoinList[LoopOrder[0]][j];
+                }
+            }
+            m2.poker.AddRange(UserFight[LoopOrder [0]].poker);
+            model.Add(m2);
+            for (int i = 0; i < TemeId .Count; i++)
+            {
+                cache.CacheFactory.user.Get(TemeId[i]).coin = UserFight[TemeId[i]].coin;
+                cache.CacheFactory.user.Get(TemeId[i]).UpdateByCoin();
+            }
+            SheduleUtil.Instance.AddShedule(delegate () {
+                Broadcast(FightProtocol.GAMESETTLMENT_BRQ, model);
+                Close();
+            }, 5000);
+        }
+
         /// <summary>
         /// 游戏结束
         /// </summary>
-        protected override void GameOver(bool isSettlement = false, string exption = "")
+        protected override void GameOver(bool isSettlement = true, string exption = "")
         {
             DebugUtil.Instance.LogToTime(RoomId + "赢三张房间游戏结束");
+            if(isSettlement)
+            {
+                GetSettlement();
+            }else
+            {
+                //非正常解散，直接调用close
+                Close();
+            }
         }
     }
 }

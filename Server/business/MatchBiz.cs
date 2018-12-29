@@ -28,14 +28,14 @@ namespace Server.business
         public ResponseStartMatchInfo StartMatch(UserToken token, SConst.GameType type)
         {
             //通过连接获取账号
-            RoleInfo user = cache.CacheFactory.user.Get(token);
+            roleinfo user = cache.CacheFactory.user.Get(token);
             ResponseStartMatchInfo info = new ResponseStartMatchInfo();
             if (user == null) {
                 info.Status = -3;
                 DebugUtil.Instance.LogToTime(token .conn .RemoteEndPoint + "请求开始匹配失败,连接无效");
                 return info;
             }
-            int uid = user.Id;
+            int uid = user.id;
             int ucoin = user.coin;
 
             //获取进入房间需要的最少的金币

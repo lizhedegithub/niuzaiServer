@@ -118,7 +118,7 @@ namespace ServerTools
         public void LogToTime(object msg,LogType type=LogType.DEBUG)
         {
             if (type == LogType.FATAL) return;
-            LogMessage.Add(new ServerTools.LogClass (msg+"   "+DateTime.Now .ToString ("hh：mm：ss：ffff"),type));
+            LogMessage.Add(new ServerTools.LogClass (DateTime.Now .ToString ("hh:mm:ss:ffff")+ "     " + msg, type));
         }
 
 

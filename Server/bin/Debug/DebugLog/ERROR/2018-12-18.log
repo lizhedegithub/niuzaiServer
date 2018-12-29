@@ -1,0 +1,21 @@
+打开数据库失败System.ArgumentNullException: 键不能为 null。
+参数名: key
+   在 System.Collections.Hashtable.ContainsKey(Object key)
+   在 System.Collections.Hashtable.Contains(Object key)
+   在 MySql.Data.MySqlClient.MySqlPoolManager.GetPool(MySqlConnectionStringBuilder settings)
+   在 MySql.Data.MySqlClient.MySqlConnection.Open()
+   在 MySQLTools.MySQLUtil.Connect() 位置 E:\Git\niuzaiServer\MySQLTools\MySQLUtil.cs:行号 71   04：48：50：6550
+打开数据库失败System.ArgumentNullException: 键不能为 null。
+参数名: key
+   在 System.Collections.Hashtable.ContainsKey(Object key)
+   在 System.Collections.Hashtable.Contains(Object key)
+   在 MySql.Data.MySqlClient.MySqlPoolManager.GetPool(MySqlConnectionStringBuilder settings)
+   在 MySql.Data.MySqlClient.MySqlConnection.Open()
+   在 MySQLTools.MySQLUtil.Connect() 位置 E:\Git\niuzaiServer\MySQLTools\MySQLUtil.cs:行号 71   04：49：35：3800
+打开数据库失败System.ArgumentNullException: 键不能为 null。
+参数名: key
+   在 System.Collections.Hashtable.ContainsKey(Object key)
+   在 System.Collections.Hashtable.Contains(Object key)
+   在 MySql.Data.MySqlClient.MySqlPoolManager.GetPool(MySqlConnectionStringBuilder settings)
+   在 MySql.Data.MySqlClient.MySqlConnection.Open()
+   在 MySQLTools.MySQLUtil.Connect() 位置 E:\Git\niuzaiServer\MySQLTools\MySQLUtil.cs:行号 71   06：03：56：6040

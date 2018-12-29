@@ -68,9 +68,15 @@ namespace Server.cache
         /// <summary>
         /// 关闭房间
         /// </summary>
-        public void Leave()
+        public void Close(int roomId)
         {
-
+            if (!RoomDic.ContainsKey(roomId)) return;
+            for (int i = 0; i < RoomDic [roomId ].TemeId.Count  ; i++)
+            {
+                UserToRoom.Remove(RoomDic[roomId].TemeId[i]);
+            }
+            RoomDic.Remove(roomId);
+            CacheFactory.match.CloseMatch(roomId);
         }
 
         public void MessageReceive(UserToken token, SocketModel message)

@@ -1,0 +1,4 @@
+E:\Git\niuzaiServer\MySQLTools\bin\Debug\MySQLTools.dll
+E:\Git\niuzaiServer\MySQLTools\bin\Debug\MySQLTools.pdb
+E:\Git\niuzaiServer\MySQLTools\obj\Debug\MySQLTools.dll
+E:\Git\niuzaiServer\MySQLTools\obj\Debug\MySQLTools.pdb

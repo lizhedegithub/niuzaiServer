@@ -1,0 +1,96 @@
+数据库打开成功   10：12：06：1233
+ExQuery:select id,year from test where name = 'lizhuo';   10：18：27：6023
+数据库打开成功   10：30：59：6623
+数据库打开成功   10：31：31：4563
+ExQuery:select id,year from test where name = 'lizhuo';   10：35：04：7633
+数据库打开成功   10：39：30：8703
+ExQuery:select year from test where id = '5';   10：40：27：9823
+数据库打开成功   11：49：38：8653
+ExQuery:select id,year from test;   11：50：23：0743
+数据库打开成功   02：49：35：2793
+当期第一个键值对必须有值   02：49：35：2793
+服务器当前最大id0   02：49：35：2853
+数据库打开成功   02：51：21：2683
+当期第一个键值对必须有值   02：51：21：2683
+服务器当前最大id0   02：52：35：7963
+数据库打开成功   02：59：03：2283
+ExQuery:select max(id) from roleinfo;   02：59：06：8933
+服务器当前最大id0   02：59：06：9333
+数据库打开成功   03：10：34：5723
+ExQuery:select max(id) from roleinfo;   03：10：34：5733
+服务器当前最大id0   03：10：34：5953
+用户请求快速注册消息到达   03：11：01：8713
+ip=127.0.0.1:57738请求快速注册   03：11：01：8713
+NonQuery:insert into roleinfo (id,username,password,nickname,coin,cash,sex,rank) values('1','lin10001','password','游客10001','1000','0','0','0');   03：11：01：8743
+快速注册成功，账号=lin10001昵称=游客10001   03：11：01：9373
+1获取用户信息，成功类   03：11：01：9913
+数据库打开成功   03：12：50：2463
+ExQuery:select max(id) from roleinfo;   03：12：50：2473
+服务器当前最大id1   03：12：50：2693
+用户请求快速注册消息到达   03：13：13：5083
+ip=127.0.0.1:57808请求快速注册   03：13：13：5083
+NonQuery:insert into roleinfo (id,username,password,nickname,coin,cash,sex,rank) values('2','lin10002','password','游客10002','0','0','0','0');   03：13：13：5103
+快速注册成功，账号=lin10002昵称=游客10002   03：13：13：5423
+2获取用户信息，成功类   03：13：13：5943
+数据库打开成功   03：15：00：3373
+ExQuery:select max(id) from roleinfo;   03：15：00：3383
+服务器当前最大id2   03：15：00：3603
+用户请求快速注册消息到达   03：15：17：6233
+ip=127.0.0.1:57878请求快速注册   03：15：17：6233
+NonQuery:insert into roleinfo (id,username,password,nickname,coin,cash,sex,rank) values('3','lin10003','password','游客10003','0','0','0','0');   03：15：17：6253
+快速注册成功，账号=lin10003昵称=游客10003   03：15：17：6573
+3获取用户信息，成功类   03：15：17：7103
+数据库打开成功   03：21：35：4693
+ExQuery:select max(id) from roleinfo;   03：21：35：4713
+服务器当前最大id3   03：21：35：4923
+用户请求快速注册消息到达   03：21：57：8673
+ip=127.0.0.1:58149请求快速注册   03：21：57：8673
+NonQuery:insert into roleinfo (id,username,password,nickname,coin,cash,sex,rank) values('4','lin10004','password','游10004','0','0','0','0');   03：21：57：8693
+快速注册成功，账号=lin10004昵称=游10004   03：21：57：9053
+4获取用户信息，成功类   03：21：57：9573
+数据库打开成功   03：25：03：0673
+ExQuery:select max(id) from roleinfo;   03：25：03：0693
+服务器当前最大id4   03：25：03：0913
+用户请求登录消息到达   03：25：28：4493
+用户请求登录消息到达   03：25：31：4093
+用户请求登录消息到达   03：25：31：6113
+用户请求登录消息到达   03：25：31：7943
+用户请求登录消息到达   03：25：31：9933
+用户请求登录消息到达   03：25：32：1753
+用户请求登录消息到达   03：25：32：3433
+用户请求登录消息到达   03：25：35：2413
+用户请求登录消息到达   03：25：35：5893
+用户请求登录消息到达   03：25：35：8043
+用户退出客户端主动断开连接   03：27：12：3563
+-1请求离开匹配对列失败，当前没有匹配对列   03：27：12：3613
+数据库打开成功   04：08：59：3403
+ExQuery:select max(id) from roleinfo;   04：08：59：3413
+ExQuery:select id from roleinfo;   04：08：59：3663
+ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '1';   04：08：59：3683
+ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '2';   04：08：59：3683
+ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '3';   04：08：59：3693
+ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '4';   04：08：59：3693
+服务器当前最大id4   04：08：59：3693
+数据库打开成功   04：11：15：2403
+ExQuery:select max(id) from roleinfo;   04：11：15：2413
+ExQuery:select id from roleinfo;   04：15：21：0973
+ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '1';   04：17：30：8193
+ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '2';   04：18：24：9933
+ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '3';   04：18：24：9943
+ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '4';   04：18：24：9943
+服务器当前最大id4   04：18：24：9953
+用户请求登录消息到达   04：20：11：5873
+用户请求登录消息到达   04：20：54：0313
+用户请求登录消息到达   04：22：00：8753
+用户请求登录消息到达   04：23：01：7633
+数据库打开成功   04：30：23：3683
+ExQuery:select max(id) from roleinfo;   04：30：23：3703
+ExQuery:select id from roleinfo;   04：30：23：3933
+ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '1';   04：30：23：3953
+ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '2';   04：30：23：3963
+ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '3';   04：30：23：3963
+ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '4';   04：30：23：3963
+服务器当前最大id4   04：30：23：3973
+用户请求登录消息到达   04：30：52：6563
+username=lin10001请求登录验证成功   04：30：52：6573
+1获取用户信息，成功类   04：30：52：6903

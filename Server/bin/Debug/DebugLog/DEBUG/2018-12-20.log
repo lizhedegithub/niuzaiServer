@@ -1,0 +1,29 @@
+NonQuery:insert into test values('5''ddd''55');   01：42：43：9304
+NonQuery:insert into test values('5''ddd''55');   01：47：50：1574
+NonQuery:insert into test values('5''ddd''55');   01：48：36：6254
+数据库打开成功   02：18：13：9494
+NonQuery:insert into test values('5''ddd''55');   02：18：13：9504
+数据库打开成功   02：18：13：9724
+数据库打开成功   02：19：15：7504
+数据库打开成功   02：24：44：6124
+NonQuery:insert into test values('5','ddd','55');   02：24：44：6134
+数据库打开成功   02：32：17：4514
+数据库打开成功   02：33：14：2634
+数据库打开成功   02：36：38：0224
+数据库打开成功   02：37：45：0684
+数据库打开成功   02：40：43：7744
+数据库打开成功   02：42：28：6984
+数据库打开成功   02：57：30：6554
+NonQuery:insert into test (id,name) values('8','lizhe');   03：01：19：6354
+数据库打开成功   04：21：21：3274
+NonQuery:update test set name='李卓',year='15'where id = '8';   04：21：21：3284
+数据库打开成功   04：22：02：0504
+NonQuery:update test set name='lizhuo',year='15'where id = '8';   04：22：02：0514
+数据库打开成功   04：22：45：9314
+NonQuery:update test set name='lizhuo',year='15'where id = '6';   04：22：45：9324
+数据库打开成功   04：24：02：3874
+NonQuery:update test set id='6',year='15'where name = 'lizhuo';   04：24：02：3884
+数据库打开成功   04：39：15：0624
+NonQuery:update test set id='6',year='15'where name = 'lizhuo';   04：39：15：0634
+数据库打开成功   04：40：12：6054
+NonQuery:delete from test where name ='lizhuo';   04：40：12：6064

@@ -124,13 +124,13 @@ namespace Server.logic.fight
                 //初始化玩家信息
                 FightUserModel m = new FightUserModel();
                 //获取用户信息
-                RoleInfo ri = cache.CacheFactory.user.Get(model.Team[i]);
+                roleinfo ri = cache.CacheFactory.user.Get(model.Team[i]);
                 //如果获取到，则将玩家信息赋值给用户信息
                 if(ri!=null)
                 {
                     m.coin = ri.coin;
                     m.nickname = ri.nickname;
-                    m.id = ri.Id;
+                    m.id = ri.id;
                 }
                 //否则，设置为默认信息
                 else
@@ -231,9 +231,10 @@ namespace Server.logic.fight
 
         }
 
-        void Close()
+        protected void Close()
         {
-
+            DebugUtil.Instance.LogToTime(RoomId + "房间即将解散");
+            CacheFactory.fight.Close(RoomId);
         }
         
         /// <summary>

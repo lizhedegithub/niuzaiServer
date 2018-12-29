@@ -18,7 +18,7 @@ namespace Server.cache
         /// <summary>
         /// 用户账号与用户数据的映射
         /// </summary>
-        Dictionary<string, dao.RoleInfo> AccountMap = new Dictionary<string, dao.RoleInfo>();
+        Dictionary<string, dao.roleinfo> AccountMap = new Dictionary<string, dao.roleinfo>();
 
         /// <summary>
         /// 在线连接和用户账号的映射
@@ -31,7 +31,7 @@ namespace Server.cache
         Dictionary<int, UserToken> IdToToken = new Dictionary<int, UserToken>();
         #endregion
 
-        int index = 0;
+        public int Index = 0;
 
         /// <summary>
         /// 注册账号
@@ -39,15 +39,16 @@ namespace Server.cache
         public string RegisterAccount(UserToken token)
         {
             //创建一个新的角色账号
-            dao.RoleInfo role = new dao.RoleInfo();
-            index++;
-            role.Id = index;
+            dao.roleinfo role = new dao.roleinfo();
+            Index++;
+            role.id = Index;
             //账号：lin10001
-            role.username = "lin" + (index + 10000);
+            role.username = "lin" + (Index + 10000);
             //密码：password
             role.password = "password";
             //昵称：游客10001
-            role.nickname = "游客" + (index + 10000);
+            role.nickname = "游" + (Index + 10000);
+            role.Add();
             //头像：default
             //金币：10000
             //钻石：10000
@@ -64,7 +65,17 @@ namespace Server.cache
         /// </summary>
         public void LoadAccount()
         {
-
+            //实例化一个角色数据库对象
+            roleinfo info = new roleinfo();
+            //获取id列全部值
+            List<int> idList = info.GetRowById();
+            for (int i = 0; i < idList .Count; i++)
+            {
+                roleinfo rinfo = new roleinfo();
+                rinfo.GetModelById(idList[i]);
+                if (!AccountMap.ContainsKey(rinfo.username))
+                    AccountMap.Add(rinfo.username, rinfo);
+            }
         }
 
         /// <summary>
@@ -136,13 +147,13 @@ namespace Server.cache
                 DebugUtil.Instance.LogToTime(username + "不存在", LogType.WARRING);
                 return;
             }
-            if (IdToToken.ContainsKey(AccountMap[username].Id))
+            if (IdToToken.ContainsKey(AccountMap[username].id))
             {
                 DebugUtil.Instance.LogToTime(username + "移除账号连接", LogType.WARRING);
-                IdToToken.Remove(AccountMap[username].Id);
+                IdToToken.Remove(AccountMap[username].id);
             }
             DebugUtil.Instance.LogToTime(username + "上线成功", LogType.WARRING);
-            IdToToken.Add(AccountMap[username].Id,token);
+            IdToToken.Add(AccountMap[username].id,token);
             OnLineAccount.Add(token, username);
         }
 
@@ -155,7 +166,8 @@ namespace Server.cache
             //如果在线并且含有此账号
             if (IsOnLine(token) && IsHasAccount(OnLineAccount[token]))
             {
-                int id = AccountMap[OnLineAccount[token]].Id;
+                SaveCoin(token);
+                int id = AccountMap[OnLineAccount[token]].id;
                 if (IdToToken.ContainsKey(id))
                     IdToToken.Remove(id);
                 OnLineAccount.Remove(token);
@@ -168,10 +180,41 @@ namespace Server.cache
         /// </summary>
         public void Save(UserToken token)
         {
-
+            if(OnLineAccount .ContainsKey (token))
+            {
+                if(!IsHasAccount (OnLineAccount [token]))
+                {
+                    //刷新玩家账号所有数据
+                    AccountMap[OnLineAccount[token]].Update();
+                }
+            }
         }
 
-        public RoleInfo Get(UserToken token)
+        public void Save(int id)
+        {
+            if (IdToToken.ContainsKey(id))
+            {
+                Save(IdToToken[id]);
+            }
+        }
+
+        /// <summary>
+        /// 刷新玩家账号金币数量
+        /// </summary>
+        /// <param name="token"></param>
+        public void SaveCoin(UserToken token)
+        {
+            if(OnLineAccount .ContainsKey (token))
+            {
+                if(IsHasAccount (OnLineAccount [token]))
+                {
+                    //刷新玩家账号金币数量
+                    AccountMap[OnLineAccount[token]].UpdateByCoin();
+                }
+            }
+        }
+
+        public roleinfo Get(UserToken token)
         {
             //判断是否在线
             if (!IsOnLine(token)) return null;
@@ -183,7 +226,7 @@ namespace Server.cache
             return AccountMap[OnLineAccount[token]];
         }
 
-        public RoleInfo Get(int id)
+        public roleinfo Get(int id)
         {
             //判断是否在线
             if (!IsOnLine(id)) return null;
@@ -205,7 +248,7 @@ namespace Server.cache
         {
             //如果当前没有在线，或没有此账号
             if (!IsOnLine(token) || !IsHasAccount (OnLineAccount [token])) return -1;
-            return AccountMap[OnLineAccount[token]].Id;
+            return AccountMap[OnLineAccount[token]].id;
         }
 
         /// <summary>

@@ -1,0 +1,92 @@
+06:24:41:0338     数据库打开成功
+06:24:41:0348     ExQuery:select max(id) from roleinfo;
+06:24:41:2908     ExQuery:select id from roleinfo;
+06:24:41:2948     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '1';
+06:24:41:2968     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '2';
+06:24:41:2968     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '3';
+06:24:41:2978     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '4';
+06:24:41:2988     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '5';
+06:24:41:2988     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '6';
+06:24:41:2998     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '7';
+06:24:41:2998     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '8';
+06:24:41:3008     服务器当前最大id8
+06:25:17:5878     用户退出客户端主动断开连接
+06:25:17:5893     -1请求离开匹配对列失败，当前没有匹配对列
+06:27:49:8353     用户请求快速注册消息到达
+06:27:49:8358     ip=192.168.50.234:59724请求快速注册
+06:27:49:8373     NonQuery:insert into roleinfo (id,username,password,nickname,coin,cash,sex,rank) values('9','lin10009','password','游10009','1000','0','0','0');
+06:27:49:9808     快速注册成功，账号=lin10009昵称=游10009
+06:27:50:0363     9获取用户信息，成功类
+06:28:14:7943     9请求创建匹配对列成功，对列号为：362198
+06:28:14:7953     9请求开始匹配成功，创建一个匹配对列
+06:28:16:3698     9请求离开匹配对列成功，移除匹配对列362198
+06:28:25:8618     用户退出客户端主动断开连接
+06:28:25:8673     9请求离开匹配对列失败，当前没有匹配对列
+06:28:25:8683     NonQuery:update roleinfo set coin='1000'where id = '9';
+06:28:25:9583     9玩家下线了
+06:44:48:2158     数据库打开成功
+06:44:48:2173     ExQuery:select max(id) from roleinfo;
+06:44:48:2433     ExQuery:select id from roleinfo;
+06:44:48:2448     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '1';
+06:44:48:2458     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '2';
+06:44:48:2458     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '3';
+06:44:48:2463     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '4';
+06:44:48:2463     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '5';
+06:44:48:2463     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '6';
+06:44:48:2468     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '7';
+06:44:48:2468     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '8';
+06:44:48:2473     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '9';
+06:44:48:2473     服务器当前最大id9
+06:47:14:7048     用户退出客户端主动断开连接
+06:47:14:7063     -1请求离开匹配对列失败，当前没有匹配对列
+06:48:50:2413     用户退出客户端主动断开连接
+06:48:50:2433     -1请求离开匹配对列失败，当前没有匹配对列
+06:50:45:1948     用户退出客户端主动断开连接
+06:50:45:1958     -1请求离开匹配对列失败，当前没有匹配对列
+06:53:35:5818     数据库打开成功
+06:53:35:5833     ExQuery:select max(id) from roleinfo;
+06:53:35:6073     ExQuery:select id from roleinfo;
+06:53:35:6093     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '1';
+06:53:35:6098     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '2';
+06:53:35:6098     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '3';
+06:53:35:6103     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '4';
+06:53:35:6103     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '5';
+06:53:35:6103     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '6';
+06:53:35:6108     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '7';
+06:53:35:6108     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '8';
+06:53:35:6108     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '9';
+06:53:35:6113     服务器当前最大id9
+06:55:53:8348     用户退出客户端主动断开连接
+06:55:53:8398     -1请求离开匹配对列失败，当前没有匹配对列
+07:00:48:5313     数据库打开成功
+07:00:48:5323     ExQuery:select max(id) from roleinfo;
+07:00:48:5608     ExQuery:select id from roleinfo;
+07:00:48:5623     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '1';
+07:00:48:5633     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '2';
+07:00:48:5638     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '3';
+07:00:48:5638     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '4';
+07:00:48:5643     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '5';
+07:00:48:5643     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '6';
+07:00:48:5643     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '7';
+07:00:48:5648     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '8';
+07:00:48:5648     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '9';
+07:00:48:5653     服务器当前最大id9
+07:02:09:0063     用户请求快速注册消息到达
+07:02:09:0063     ip=192.168.50.234:62323请求快速注册
+07:02:09:0078     NonQuery:insert into roleinfo (id,username,password,nickname,coin,cash,sex,rank) values('10','lin10010','password','游10010','1000','0','0','0');
+07:02:09:0558     快速注册成功，账号=lin10010昵称=游10010
+07:02:09:0993     10获取用户信息，成功类
+07:30:07:7053     数据库打开成功
+07:30:07:7068     ExQuery:select max(id) from roleinfo;
+07:30:07:7288     ExQuery:select id from roleinfo;
+07:30:07:7303     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '1';
+07:30:07:7313     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '2';
+07:30:07:7313     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '3';
+07:30:07:7318     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '4';
+07:30:07:7318     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '5';
+07:30:07:7318     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '6';
+07:30:07:7323     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '7';
+07:30:07:7323     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '8';
+07:30:07:7323     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '9';
+07:30:07:7323     ExQuery:select username,password,nickname,head,coin,cash,sex,phone,rank from roleinfo where id = '10';
+07:30:07:7328     服务器当前最大id10
